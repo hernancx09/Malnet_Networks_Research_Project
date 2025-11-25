@@ -245,7 +245,6 @@ if __name__ == "__main__":
     
     if not data_dir.exists():
         print(f"\n[INFO] Dataset directory not found: {data_dir}")
-        download_instructions()
     else:
         print(f"\n[INFO] Found dataset directory: {data_dir}")
         
