@@ -230,30 +230,6 @@ class MalNetTinyLoader:
         return stats
 
 
-def download_instructions():
-    """Print instructions for downloading MalNet-Tiny"""
-    print("="*60)
-    print("MalNet-Tiny Dataset Download Instructions")
-    print("="*60)
-    print("\nMalNet-Tiny is a dataset of malware call graphs.")
-    print("It contains ~5,000 graphs from 47 malware families.")
-    print("\nDownload options:")
-    print("\n1. Official Source:")
-    print("   - Visit: https://github.com/nd7141/graph_datasets")
-    print("   - Or search for 'MalNet-Tiny' on GitHub")
-    print("\n2. Alternative:")
-    print("   - Check: https://drive.google.com (search 'MalNet-Tiny')")
-    print("   - Or contact the authors of the research paper")
-    print("\n3. After downloading:")
-    print("   - Extract to: project/data/malnet_tiny/")
-    print("   - Expected structure:")
-    print("     project/data/malnet_tiny/")
-    print("       graphs/          (graph files)")
-    print("       labels.txt       (family labels)")
-    print("       metadata.json    (optional)")
-    print("\n" + "="*60)
-
-
 if __name__ == "__main__":
     import sys
     
