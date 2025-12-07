@@ -1,0 +1,12 @@
+Rank,Pattern,Count,Percentage,Sample Indices
+1,addisplay/kuguo → benign/benign,22,19.47%,"7, 32, 126, 182, 206, 226, 270, 284, 327, 330"
+2,benign/benign → addisplay/kuguo,20,17.70%,"24, 44, 99, 150, 280, 285, 387, 441, 443, 527"
+3,adware/airpush → benign/benign,18,15.93%,"93, 148, 276, 277, 412, 463, 490, 645, 724, 740"
+4,trojan/artemis → benign/benign,16,14.16%,"101, 175, 260, 319, 337, 427, 428, 477, 520, 615"
+5,benign/benign → adware/airpush,15,13.27%,"135, 169, 177, 204, 239, 256, 389, 432, 510, 519"
+6,trojan/artemis → addisplay/kuguo,8,7.08%,"205, 291, 417, 446, 544, 584, 710, 798"
+7,trojan/artemis → downloader/jiagu,5,4.42%,"311, 552, 618, 627, 801"
+8,benign/benign → trojan/artemis,4,3.54%,"109, 478, 577, 675"
+9,trojan/artemis → adware/airpush,3,2.65%,"487, 923, 956"
+10,addisplay/kuguo → adware/airpush,1,0.88%,604
+11,adware/airpush → trojan/artemis,1,0.88%,864

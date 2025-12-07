@@ -1,0 +1,518 @@
+{
+  "accuracy": 0.887,
+  "macro_f1": 0.8879429877605214,
+  "weighted_f1": 0.8879429877605214,
+  "micro_f1": 0.887,
+  "macro_precision": 0.8914116280021649,
+  "weighted_precision": 0.8914116280021649,
+  "macro_recall": 0.8870000000000001,
+  "weighted_recall": 0.887,
+  "per_class": {
+    "addisplay/kuguo": {
+      "f1": 0.8740740740740741,
+      "precision": 0.8634146341463415,
+      "recall": 0.885
+    },
+    "adware/airpush": {
+      "f1": 0.905,
+      "precision": 0.905,
+      "recall": 0.905
+    },
+    "benign/benign": {
+      "f1": 0.7721822541966427,
+      "precision": 0.7419354838709677,
+      "recall": 0.805
+    },
+    "downloader/jiagu": {
+      "f1": 0.9876543209876543,
+      "precision": 0.975609756097561,
+      "recall": 1.0
+    },
+    "trojan/artemis": {
+      "f1": 0.900804289544236,
+      "precision": 0.9710982658959537,
+      "recall": 0.84
+    }
+  },
+  "macro_auc": 0.98148,
+  "weighted_auc": 0.98148,
+  "per_class_auc": {
+    "addisplay/kuguo": 0.986040625,
+    "adware/airpush": 0.992146875,
+    "benign/benign": 0.9638875000000001,
+    "downloader/jiagu": 0.998771875,
+    "trojan/artemis": 0.9665531250000001
+  },
+  "classification_report": {
+    "addisplay/kuguo": {
+      "precision": 0.8634146341463415,
+      "recall": 0.885,
+      "f1-score": 0.8740740740740741,
+      "support": 200.0
+    },
+    "adware/airpush": {
+      "precision": 0.905,
+      "recall": 0.905,
+      "f1-score": 0.905,
+      "support": 200.0
+    },
+    "benign/benign": {
+      "precision": 0.7419354838709677,
+      "recall": 0.805,
+      "f1-score": 0.7721822541966427,
+      "support": 200.0
+    },
+    "downloader/jiagu": {
+      "precision": 0.975609756097561,
+      "recall": 1.0,
+      "f1-score": 0.9876543209876543,
+      "support": 200.0
+    },
+    "trojan/artemis": {
+      "precision": 0.9710982658959537,
+      "recall": 0.84,
+      "f1-score": 0.900804289544236,
+      "support": 200.0
+    },
+    "accuracy": 0.887,
+    "macro avg": {
+      "precision": 0.8914116280021649,
+      "recall": 0.8870000000000001,
+      "f1-score": 0.8879429877605214,
+      "support": 1000.0
+    },
+    "weighted avg": {
+      "precision": 0.8914116280021649,
+      "recall": 0.887,
+      "f1-score": 0.8879429877605214,
+      "support": 1000.0
+    }
+  },
+  "roc_curves": {
+    "per_class_auc": {
+      "addisplay/kuguo": 0.986040625,
+      "adware/airpush": 0.992146875,
+      "benign/benign": 0.9638875000000001,
+      "downloader/jiagu": 0.998771875,
+      "trojan/artemis": 0.9665531250000001
+    },
+    "macro_auc": 0.98148
+  },
+  "pr_curves": {
+    "per_class_aupr": {
+      "addisplay/kuguo": 0.9552861889987061,
+      "adware/airpush": 0.9729959132425173,
+      "benign/benign": 0.8611339413629937,
+      "downloader/jiagu": 0.9905739270065046,
+      "trojan/artemis": 0.93564523531387
+    },
+    "macro_aupr": 0.9431270411849184
+  },
+  "macro_aupr": 0.9431270411849184,
+  "feature_importances": {
+    "top_features": [
+      {
+        "feature": "GCM_27",
+        "importance": 0.015013949241448738
+      },
+      {
+        "feature": "GCM_17",
+        "importance": 0.014777750702287039
+      },
+      {
+        "feature": "GCM_3",
+        "importance": 0.013945410389898884
+      },
+      {
+        "feature": "GCM_11",
+        "importance": 0.012390609413460669
+      },
+      {
+        "feature": "GCM_28",
+        "importance": 0.012059734839483489
+      },
+      {
+        "feature": "GCM_37",
+        "importance": 0.011658570331840186
+      },
+      {
+        "feature": "GCM_64",
+        "importance": 0.01163722637204073
+      },
+      {
+        "feature": "GCM_23",
+        "importance": 0.011187180579639078
+      },
+      {
+        "feature": "GCM_69",
+        "importance": 0.011173503643153511
+      },
+      {
+        "feature": "GCM_68",
+        "importance": 0.010204642584879409
+      },
+      {
+        "feature": "GCM_58",
+        "importance": 0.010117499230127674
+      },
+      {
+        "feature": "GCM_16",
+        "importance": 0.009933069323861201
+      },
+      {
+        "feature": "GCM_42",
+        "importance": 0.009511335001688928
+      },
+      {
+        "feature": "GCM_14",
+        "importance": 0.008646479234754912
+      },
+      {
+        "feature": "GCM_0",
+        "importance": 0.008385709472805857
+      },
+      {
+        "feature": "GCM_6",
+        "importance": 0.008337317797182638
+      },
+      {
+        "feature": "GCM_1",
+        "importance": 0.00825955422060107
+      },
+      {
+        "feature": "GCM_233",
+        "importance": 0.007965765394959858
+      },
+      {
+        "feature": "GCM_18",
+        "importance": 0.007773183676850383
+      },
+      {
+        "feature": "GCM_89",
+        "importance": 0.0076446290892163305
+      },
+      {
+        "feature": "GCM_41",
+        "importance": 0.007597362119209987
+      },
+      {
+        "feature": "GCM_2",
+        "importance": 0.007204068578174142
+      },
+      {
+        "feature": "GCM_43",
+        "importance": 0.006841128636170427
+      },
+      {
+        "feature": "GCM_76",
+        "importance": 0.006784689735802351
+      },
+      {
+        "feature": "GCM_10",
+        "importance": 0.006501747814797436
+      },
+      {
+        "feature": "GCM_63",
+        "importance": 0.006374660097764671
+      },
+      {
+        "feature": "GCM_84",
+        "importance": 0.0062181577659712155
+      },
+      {
+        "feature": "GCM_109",
+        "importance": 0.006178884796556084
+      },
+      {
+        "feature": "GCM_54",
+        "importance": 0.006140912829467531
+      },
+      {
+        "feature": "GCM_34",
+        "importance": 0.006005398722464059
+      },
+      {
+        "feature": "GCM_50",
+        "importance": 0.005924550651398223
+      },
+      {
+        "feature": "GCM_103",
+        "importance": 0.00570801309541858
+      },
+      {
+        "feature": "GCM_357",
+        "importance": 0.005695913625698422
+      },
+      {
+        "feature": "GCM_88",
+        "importance": 0.0056348172887505975
+      },
+      {
+        "feature": "GCM_142",
+        "importance": 0.005583400746512428
+      },
+      {
+        "feature": "GCM_100",
+        "importance": 0.005499691925729346
+      },
+      {
+        "feature": "GCM_25",
+        "importance": 0.005447146457083634
+      },
+      {
+        "feature": "GCM_30",
+        "importance": 0.00540998947751228
+      },
+      {
+        "feature": "GCM_333",
+        "importance": 0.005284919192277082
+      },
+      {
+        "feature": "GCM_5",
+        "importance": 0.0051434624459299715
+      },
+      {
+        "feature": "GCM_40",
+        "importance": 0.004920875776872737
+      },
+      {
+        "feature": "GCM_332",
+        "importance": 0.004890721833036995
+      },
+      {
+        "feature": "GCM_256",
+        "importance": 0.004888524413466189
+      },
+      {
+        "feature": "GCM_106",
+        "importance": 0.004863490031522119
+      },
+      {
+        "feature": "GCM_24",
+        "importance": 0.004797621646412762
+      },
+      {
+        "feature": "GCM_65",
+        "importance": 0.004766013183275112
+      },
+      {
+        "feature": "GCM_33",
+        "importance": 0.004692606820475054
+      },
+      {
+        "feature": "GCM_19",
+        "importance": 0.0045945470848315385
+      },
+      {
+        "feature": "GCM_172",
+        "importance": 0.004500086173548467
+      },
+      {
+        "feature": "GCM_48",
+        "importance": 0.004307197909722642
+      }
+    ],
+    "total_features": 666,
+    "mean_importance": 0.0015015015015015013,
+    "std_importance": 0.0021420078216417516
+  },
+  "misclassifications": {
+    "total_samples": 1000,
+    "misclassified_samples": 113,
+    "accuracy": 0.887,
+    "misclassification_rate": 0.113,
+    "patterns": [
+      {
+        "pattern": "addisplay/kuguo \u2192 benign/benign",
+        "count": 22,
+        "percentage": 19.469026548672566,
+        "sample_indices": [
+          7,
+          32,
+          126,
+          182,
+          206,
+          226,
+          270,
+          284,
+          327,
+          330
+        ]
+      },
+      {
+        "pattern": "benign/benign \u2192 addisplay/kuguo",
+        "count": 20,
+        "percentage": 17.699115044247787,
+        "sample_indices": [
+          24,
+          44,
+          99,
+          150,
+          280,
+          285,
+          387,
+          441,
+          443,
+          527
+        ]
+      },
+      {
+        "pattern": "adware/airpush \u2192 benign/benign",
+        "count": 18,
+        "percentage": 15.929203539823009,
+        "sample_indices": [
+          93,
+          148,
+          276,
+          277,
+          412,
+          463,
+          490,
+          645,
+          724,
+          740
+        ]
+      },
+      {
+        "pattern": "trojan/artemis \u2192 benign/benign",
+        "count": 16,
+        "percentage": 14.15929203539823,
+        "sample_indices": [
+          101,
+          175,
+          260,
+          319,
+          337,
+          427,
+          428,
+          477,
+          520,
+          615
+        ]
+      },
+      {
+        "pattern": "benign/benign \u2192 adware/airpush",
+        "count": 15,
+        "percentage": 13.274336283185843,
+        "sample_indices": [
+          135,
+          169,
+          177,
+          204,
+          239,
+          256,
+          389,
+          432,
+          510,
+          519
+        ]
+      },
+      {
+        "pattern": "trojan/artemis \u2192 addisplay/kuguo",
+        "count": 8,
+        "percentage": 7.079646017699115,
+        "sample_indices": [
+          205,
+          291,
+          417,
+          446,
+          544,
+          584,
+          710,
+          798
+        ]
+      },
+      {
+        "pattern": "trojan/artemis \u2192 downloader/jiagu",
+        "count": 5,
+        "percentage": 4.424778761061947,
+        "sample_indices": [
+          311,
+          552,
+          618,
+          627,
+          801
+        ]
+      },
+      {
+        "pattern": "benign/benign \u2192 trojan/artemis",
+        "count": 4,
+        "percentage": 3.5398230088495577,
+        "sample_indices": [
+          109,
+          478,
+          577,
+          675
+        ]
+      },
+      {
+        "pattern": "trojan/artemis \u2192 adware/airpush",
+        "count": 3,
+        "percentage": 2.6548672566371683,
+        "sample_indices": [
+          487,
+          923,
+          956
+        ]
+      },
+      {
+        "pattern": "addisplay/kuguo \u2192 adware/airpush",
+        "count": 1,
+        "percentage": 0.8849557522123894,
+        "sample_indices": [
+          604
+        ]
+      },
+      {
+        "pattern": "adware/airpush \u2192 trojan/artemis",
+        "count": 1,
+        "percentage": 0.8849557522123894,
+        "sample_indices": [
+          864
+        ]
+      }
+    ],
+    "top_patterns": [
+      {
+        "pattern": "addisplay/kuguo \u2192 benign/benign",
+        "count": 22
+      },
+      {
+        "pattern": "benign/benign \u2192 addisplay/kuguo",
+        "count": 20
+      },
+      {
+        "pattern": "adware/airpush \u2192 benign/benign",
+        "count": 18
+      },
+      {
+        "pattern": "trojan/artemis \u2192 benign/benign",
+        "count": 16
+      },
+      {
+        "pattern": "benign/benign \u2192 adware/airpush",
+        "count": 15
+      },
+      {
+        "pattern": "trojan/artemis \u2192 addisplay/kuguo",
+        "count": 8
+      },
+      {
+        "pattern": "trojan/artemis \u2192 downloader/jiagu",
+        "count": 5
+      },
+      {
+        "pattern": "benign/benign \u2192 trojan/artemis",
+        "count": 4
+      },
+      {
+        "pattern": "trojan/artemis \u2192 adware/airpush",
+        "count": 3
+      },
+      {
+        "pattern": "addisplay/kuguo \u2192 adware/airpush",
+        "count": 1
+      }
+    ]
+  }
+}
