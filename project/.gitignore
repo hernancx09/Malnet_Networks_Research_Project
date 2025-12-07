@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Data outputs
+data/gdvs/*.pkl
+data/gdvs/*.npy
+data/gcms/*.pkl
+data/gcms/*.npy
+data/processed/*
+
+# Temporary files
+*.tmp
+*.log
+*.bak
+*.txt
+!requirements.txt
+
+# gtrieScanner build artifacts
+gtrieScanner/*.o
+gtrieScanner/gtrieScanner
+
+# OS
+.DS_Store
+Thumbs.db
