@@ -1,6 +1,6 @@
 # MalNet-Tiny Directed Graphlet Analysis
 
-Compute Directed Graphlet Degree Vectors (DGDVs) for malware family classification using the MalNet-Tiny dataset and UCL Directed Graphlet Counter.
+Compute Directed Graphlet Degree Vectors (DGDVs) and Graphlet Correlation Matrices (GCMs) for malware family classification using the MalNet-Tiny dataset and UCL Directed Graphlet Counter.
 
 ## Quick Start
 
@@ -10,12 +10,19 @@ Compute Directed Graphlet Degree Vectors (DGDVs) for malware family classificati
    python run_pipeline.py
    ```
 
+This will:
+1. Load all MalNet-Tiny graphs (as directed graphs)
+2. Compute DGDVs using UCL Directed Graphlet Counter
+3. Apply orbit reduction (remove low-variance and collinear orbits)
+4. Compute GCMs from reduced DGDVs
+5. Save results to `data/gdvs/` (both combined and individual files)
+
 ## Requirements
 
 - Python 3.8+
 - WSL (Windows Subsystem for Linux) or Linux
 - UCL Directed Graphlet Counter compiled (C++ compiler required)
-- NetworkX, NumPy
+- NetworkX, NumPy, tqdm
 
 Install dependencies:
 ```bash
@@ -26,23 +33,36 @@ pip install -r requirements.txt
 
 ```
 project/
-├── src/                    # Source code
-│   ├── load_malnet.py          # Dataset loader
-│   ├── ucl_integration.py      # UCL Directed Graphlet Counter wrapper
-│   ├── directed_motifs.py     # Motif classification
-│   ├── compute_dgdvs_malnet.py # DGDV computation pipeline
-│   └── clean_edgelists.py     # File cleaning utility
+├── src/                          # Source code
+│   ├── load_malnet.py                # Dataset loader
+│   ├── ucl_integration.py            # UCL Directed Graphlet Counter wrapper
+│   ├── compute_dgdvs_malnet.py     # DGDV computation pipeline
+│   ├── orbit_reduction.py            # Orbit reduction module
+│   ├── compute_gcms.py               # GCM computation module
+│   ├── split_gcms.py                 # Utility to split GCM files
+│   └── helpers/
+│       └── gpu_acceleration.py       # GPU acceleration utilities
 │
-├── data/                    # Dataset and results
-│   ├── malnet_tiny/          # MalNet-Tiny dataset (5,000 graphs)
-│   ├── gdvs/                 # Computed DGDV matrices
-│   └── gcms/                 # Computed GCM vectors
+├── data/                        # Dataset and results
+│   ├── malnet_tiny/              # MalNet-Tiny dataset (5,000 graphs)
+│   └── gdvs/                     # Computed DGDVs and GCMs
+│       ├── gdvs/                 # DGDV files
+│       │   ├── all_dgdvs_3_4node.pkl          # Combined DGDVs
+│       │   ├── all_dgdvs_3_4node_reduced.pkl # Reduced DGDVs
+│       │   └── individual/                    # Individual DGDV files
+│       │       └── graph_XXXXX.pkl
+│       ├── gcms/                 # GCM files
+│       │   ├── all_gcms_3_4node_reduced.pkl  # Combined GCMs
+│       │   └── individual/                    # Individual GCM files
+│       │       └── graph_XXXXX.pkl
+│       └── metadata/              # Processing metadata
 │
 ├── Directed_Graphlet_Counter_v3.cpp  # UCL counter source code
 ├── Directed_Graphlet_Counter_v3       # Compiled executable
 │
-├── run_pipeline.py          # Main pipeline script
-└── README.md                # This file
+├── run_pipeline.py              # Main pipeline script
+├── run_pipeline.sh              # Shell script for cluster execution
+└── README.md                    # This file
 ```
 
 ## Usage
@@ -53,11 +73,10 @@ project/
 python run_pipeline.py
 ```
 
-This will:
-1. Load all MalNet-Tiny graphs (as directed graphs)
-2. Compute DGDVs using UCL Directed Graphlet Counter
-3. Compute GCMs from DGDVs
-4. Save results to `data/gdvs/`
+Or using the shell script:
+```bash
+./run_pipeline.sh
+```
 
 ### Compile UCL Counter
 
@@ -68,6 +87,33 @@ g++ -O3 -o Directed_Graphlet_Counter_v3 Directed_Graphlet_Counter_v3.cpp
 
 # On Windows (using WSL):
 wsl g++ -O3 -o Directed_Graphlet_Counter_v3 Directed_Graphlet_Counter_v3.cpp
+```
+
+### Run Individual Steps
+
+**1. Compute DGDVs:**
+```bash
+python run_pipeline.py
+```
+
+**2. Apply Orbit Reduction:**
+```bash
+python src/orbit_reduction.py \
+    --input data/gdvs/gdvs/all_dgdvs_3_4node.pkl \
+    --output data/gdvs/gdvs/all_dgdvs_3_4node_reduced.pkl
+```
+
+**3. Compute GCMs:**
+```bash
+python src/compute_gcms.py \
+    --input data/gdvs/gdvs/all_dgdvs_3_4node_reduced.pkl \
+    --output data/gdvs/gcms/all_gcms_3_4node_reduced.pkl
+```
+
+**4. Split Combined GCM File into Individual Files:**
+```bash
+python src/split_gcms.py \
+    --input data/gdvs/gcms/all_gcms_3_4node_reduced.pkl
 ```
 
 ### Compute DGDVs Programmatically
@@ -89,13 +135,34 @@ dgdv_3node = compute_directed_gdvs_with_ucl(graphs[0], min_graphlet_size=3, max_
 # Shape: (n_nodes, 39) for 3-node directed motifs
 ```
 
-### Process Subset
+### Orbit Reduction
+
+Remove orbits with near-zero variance or strong collinearity:
 
 ```python
-from src.compute_dgdvs_malnet import DGDVProcessor
+from src.orbit_reduction import reduce_orbits_from_file
 
-processor = DGDVProcessor("data/malnet_tiny", "data/gdvs")
-results = processor.process_graphs(graphs[:100], limit=100)  # Process first 100
+reduce_orbits_from_file(
+    input_file='data/gdvs/gdvs/all_dgdvs_3_4node.pkl',
+    output_file='data/gdvs/gdvs/all_dgdvs_3_4node_reduced.pkl',
+    variance_threshold=1e-6,      # Remove orbits with variance < 1e-6
+    correlation_threshold=0.95    # Remove orbits with correlation > 0.95
+)
+```
+
+### Compute GCMs
+
+Compute Graphlet Correlation Matrices from DGDVs:
+
+```python
+from src.compute_gcms import compute_gcms_from_file
+
+compute_gcms_from_file(
+    input_file='data/gdvs/gdvs/all_dgdvs_3_4node_reduced.pkl',
+    output_file='data/gdvs/gcms/all_gcms_3_4node_reduced.pkl',
+    use_gpu=False,                # Set to True if GPU available
+    save_individual=True           # Save individual GCM files
+)
 ```
 
 ## Dataset
@@ -114,10 +181,12 @@ All edgelist files have been cleaned (headers removed) and are ready for process
 The pipeline supports GPU acceleration using **CuPy** for faster matrix operations:
 
 - **2-10x speedup** for GCM computation on large graphs
-- **1.5-3x speedup** for DGDV matrix construction
 - **Automatic fallback** to CPU if GPU unavailable
 
-See [GPU_SETUP.md](GPU_SETUP.md) for installation and usage instructions.
+To use GPU acceleration:
+```bash
+python src/compute_gcms.py --input <dgdv_file> --output <gcm_file> --gpu
+```
 
 Quick setup:
 ```bash
@@ -128,9 +197,33 @@ pip install cupy-cuda11x  # or cupy-cuda12x for CUDA 12.x
 ## Output
 
 After running the pipeline:
-- `data/gdvs/all_dgdvs.pkl` - All DGDV matrices (39 orbits per node for 3-node motifs)
-- `data/gdvs/all_gcms.pkl` - All GCM vectors (graph-level features)
-- `data/gdvs/metadata/processing_metadata.json` - Processing metadata
+
+**DGDV Files:**
+- `data/gdvs/gdvs/all_dgdvs_3_4node.pkl` - Combined DGDV matrices (127 orbits)
+- `data/gdvs/gdvs/all_dgdvs_3_4node_reduced.pkl` - Reduced DGDV matrices (after orbit reduction)
+- `data/gdvs/gdvs/individual/graph_XXXXX.pkl` - Individual DGDV files (one per graph)
+
+**GCM Files:**
+- `data/gdvs/gcms/all_gcms_3_4node_reduced.pkl` - Combined GCM vectors
+- `data/gdvs/gcms/individual/graph_XXXXX.pkl` - Individual GCM files (one per graph)
+
+**Metadata:**
+- `data/gdvs/metadata/processing_metadata_3_4node.json` - Processing metadata
+- `data/gdvs/metadata/orbit_reduction_3_4node.json` - Orbit reduction statistics
+
+### Loading Individual Files
+
+```python
+import pickle
+
+# Load individual DGDV
+with open('data/gdvs/gdvs/individual/graph_00042.pkl', 'rb') as f:
+    dgdv = pickle.load(f)
+
+# Load individual GCM
+with open('data/gdvs/gcms/individual/graph_00042.pkl', 'rb') as f:
+    gcm = pickle.load(f)
+```
 
 ## DGDV Format
 
@@ -148,6 +241,100 @@ The UCL counter computes 129 orbits total:
 - **Columns**: 13 motifs × 3 orbits = 39 orbit positions
 
 **Values**: Count of how many times each node appears in each orbit position
+
+### DGDV Structure Example
+
+```
+DGDV Matrix (numpy.ndarray):
+  Shape: (999, 127)  # 999 nodes × 127 orbits
+  Dtype: int32
+  Values: Non-negative integers (orbit counts)
+  
+  Structure:
+    Row 0: [0, 3, 1, 42, 3, 1, ...]  # Node 0's orbit counts
+    Row 1: [0, 2, 0, 38, 2, 0, ...]  # Node 1's orbit counts
+    ...
+    Row 998: [1, 5, 2, 51, 4, 2, ...]  # Node 998's orbit counts
+    
+  Interpretation:
+    - Each row = one node
+    - Each column = one orbit
+    - Value = count of how many times that node appears in that orbit
+```
+
+### GCM Structure Example
+
+```
+GCM Vector (numpy.ndarray):
+  Shape: (325,)  # Flattened upper triangle
+  Dtype: float64
+  Values: Correlation coefficients in range [-1, 1]
+  
+  Structure:
+    [0.545, 0.014, 0.051, 0.437, 0.019, ...]  # 325 correlation values
+    
+  Interpretation:
+    - Represents upper triangle of correlation matrix (excluding diagonal)
+    - Original matrix: 26 × 26 orbits (after orbit reduction)
+    - Formula: n × (n-1) / 2 = 26 × 25 / 2 = 325 correlations
+    - Each value = correlation between two orbits (across nodes)
+    
+  Matrix Reconstruction:
+    corr_matrix = np.zeros((26, 26))
+    triu_indices = np.triu_indices(26, k=1)
+    corr_matrix[triu_indices] = gcm
+    corr_matrix.T[triu_indices] = gcm  # Make symmetric
+    np.fill_diagonal(corr_matrix, 1.0)  # Self-correlation
+```
+
+### Format Comparison
+
+| Feature | DGDV | GCM |
+|---------|------|-----|
+| **Level** | Node-level | Graph-level |
+| **Structure** | Matrix (n_nodes × n_orbits) | Vector (n_correlations,) |
+| **Example Shape** | (999, 127) | (325,) |
+| **Data Type** | int32 | float64 |
+| **Values** | Non-negative integers (counts) | Floats in [-1, 1] (correlations) |
+| **Meaning** | Orbit counts per node | Orbit pair correlations |
+| **Computation** | Direct from UCL counter | Computed from DGDV |
+
+**Relationship**: GCM is computed FROM DGDV by:
+1. Starting with DGDV: (n_nodes, n_orbits) matrix
+2. Computing correlation between orbits (across nodes)
+3. Resulting in (n_orbits, n_orbits) correlation matrix
+4. Extracting upper triangle (excluding diagonal)
+5. Flattening to vector: n_orbits × (n_orbits-1) / 2 elements
+
+## GCM Format
+
+Graphlet Correlation Matrices (GCMs) are graph-level features computed from DGDVs:
+
+1. **Correlation Matrix**: For each graph, compute correlation between orbits (across nodes)
+   - Input: DGDV matrix of shape (n_nodes, n_orbits)
+   - Output: Correlation matrix of shape (n_orbits, n_orbits)
+
+2. **Flattened Vector**: Extract upper triangular portion (excluding diagonal)
+   - Size: n_orbits × (n_orbits - 1) / 2
+   - Contains pairwise correlations between all orbit pairs
+
+3. **After Orbit Reduction**: 
+   - GCM size depends on number of orbits kept after reduction
+   - Typically 200-700 elements for reduced 3-4 node graphlets
+
+**Size Examples**:
+- Original: 127 orbits → GCM size = 127 × 126 / 2 = 8,001 elements
+- Reduced: ~26 orbits → GCM size = 26 × 25 / 2 = 325 elements
+- Reduced: ~50 orbits → GCM size = 50 × 49 / 2 = 1,225 elements
+
+## Memory Management
+
+The pipeline uses incremental saving to handle large datasets:
+
+- **Individual files**: Each DGDV/GCM saved immediately after computation
+- **Checkpointing**: Progress saved periodically to prevent data loss
+- **Resume capability**: Can resume from last checkpoint if interrupted
+- **Batch processing**: Large operations split into batches
 
 ## References
 
