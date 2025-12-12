@@ -35,7 +35,7 @@ class ClassificationPipeline:
         self.classifiers = {
             'rf': RandomForestClassifier(
                 n_estimators=100,
-                max_depth=None,
+                max_depth=10,
                 random_state=random_state,
                 n_jobs=-1
             ),

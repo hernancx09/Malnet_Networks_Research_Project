@@ -22,6 +22,11 @@ data/gdvs/*.npy
 data/gcms/*.pkl
 data/gcms/*.npy
 data/processed/*
+data/DGDVs/*.pkl
+data/GCMs/*.pkl
+# Exclude large combined files
+**/all_dgdvs*.pkl
+**/all_gcms*.pkl
 
 # Temporary files
 *.tmp

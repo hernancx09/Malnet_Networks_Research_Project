@@ -337,45 +337,12 @@ class DGDVProcessor:
                     with open(individual_file, 'rb') as f:
                         batch_dgdvs.append(pickle.load(f))
             
-            # Compute GCMs for this batch
+            # Compute GCMs for this batch using Spearman correlation
+            from compute_gcms import compute_gcm_from_dgdv
             for dgdv in batch_dgdvs:
-                if GPU_AVAILABLE and self.use_gpu and gpu_corrcoef is not None:
-                    try:
-                        corr_matrix = gpu_corrcoef(dgdv, use_gpu=self.use_gpu)
-                        if corr_matrix.size == 0:
-                            gcms.append(np.array([]))
-                        else:
-                            n = corr_matrix.shape[0]
-                            gcm = corr_matrix[np.triu_indices(n, k=1)]
-                            gcms.append(gcm)
-                    except Exception as e:
-                        # Fall back to CPU
-                        non_zero_orbits = np.var(dgdv, axis=0) > 0
-                        if non_zero_orbits.sum() == 0:
-                            gcms.append(np.array([]))
-                        else:
-                            dgdv_filtered = dgdv[:, non_zero_orbits]
-                            try:
-                                corr_matrix = np.corrcoef(dgdv_filtered.T)
-                                n = corr_matrix.shape[0]
-                                gcm = corr_matrix[np.triu_indices(n, k=1)]
-                                gcms.append(gcm)
-                            except:
-                                gcms.append(np.array([]))
-                else:
-                    # CPU fallback
-                    non_zero_orbits = np.var(dgdv, axis=0) > 0
-                    if non_zero_orbits.sum() == 0:
-                        gcms.append(np.array([]))
-                    else:
-                        dgdv_filtered = dgdv[:, non_zero_orbits]
-                        try:
-                            corr_matrix = np.corrcoef(dgdv_filtered.T)
-                            n = corr_matrix.shape[0]
-                            gcm = corr_matrix[np.triu_indices(n, k=1)]
-                            gcms.append(gcm)
-                        except:
-                            gcms.append(np.array([]))
+                # Use Spearman correlation implementation
+                gcm = compute_gcm_from_dgdv(dgdv, use_gpu=False)
+                gcms.append(gcm)
             
             # Clear batch from memory
             del batch_dgdvs
@@ -391,48 +358,19 @@ class DGDVProcessor:
     
     def _compute_gcms(self, dgdvs: List[np.ndarray]) -> List[np.ndarray]:
         """
-        Compute Graphlet Correlation Matrices (GCMs) from DGDVs
+        Compute Graphlet Correlation Matrices (GCMs) from DGDVs using Spearman correlation
+        Based on Yaveroglu et al. methodology
         
-        GCM is computed as correlation matrix of orbit counts across nodes
-        Uses GPU acceleration if available
+        Includes both 3-node and 4-node orbits in GCM computation
         """
+        from compute_gcms import compute_gcm_from_dgdv
+        
         gcms = []
         
         for dgdv in tqdm(dgdvs, desc="Computing GCMs", leave=False):
-            # Use GPU-accelerated correlation if available
-            if GPU_AVAILABLE and self.use_gpu and gpu_corrcoef is not None:
-                try:
-                    corr_matrix = gpu_corrcoef(dgdv, use_gpu=self.use_gpu)
-                    if corr_matrix.size == 0:
-                        gcms.append(np.array([]))
-                        continue
-                    
-                    # Extract upper triangle (excluding diagonal)
-                    n = corr_matrix.shape[0]
-                    gcm = corr_matrix[np.triu_indices(n, k=1)]
-                    gcms.append(gcm)
-                except Exception as e:
-                    # Fall back to CPU if GPU fails
-                    corr_matrix = np.corrcoef(dgdv[:, np.var(dgdv, axis=0) > 0].T)
-                    n = corr_matrix.shape[0]
-                    gcm = corr_matrix[np.triu_indices(n, k=1)]
-                    gcms.append(gcm)
-            else:
-                # CPU fallback
-                non_zero_orbits = np.var(dgdv, axis=0) > 0
-                if non_zero_orbits.sum() == 0:
-                    gcms.append(np.array([]))
-                    continue
-                
-                dgdv_filtered = dgdv[:, non_zero_orbits]
-                
-                try:
-                    corr_matrix = np.corrcoef(dgdv_filtered.T)
-                    n = corr_matrix.shape[0]
-                    gcm = corr_matrix[np.triu_indices(n, k=1)]
-                    gcms.append(gcm)
-                except:
-                    gcms.append(np.array([]))
+            # Use the Spearman correlation implementation from compute_gcms module
+            gcm = compute_gcm_from_dgdv(dgdv, use_gpu=False)  # Spearman doesn't use GPU
+            gcms.append(gcm)
         
         return gcms
     
@@ -526,12 +464,27 @@ def main():
                        help='Limit number of graphs to process (for testing)')
     parser.add_argument('--save-individual', action='store_true',
                        help='Save individual GDV files')
+    parser.add_argument('--recompute-individual', action='store_true',
+                       help='Recompute individual DGDV files from combined file')
+    parser.add_argument('--combined-file', type=str, default='data/DGDVs/all_dgdvs_3_4node.pkl',
+                       help='Path to combined DGDV file (for --recompute-individual)')
+    parser.add_argument('--individual-dir', type=str, default='data/DGDVs/individual',
+                       help='Directory for individual DGDV files (for --recompute-individual)')
     
     args = parser.parse_args()
     
     # Change to project root
     project_root = Path(__file__).parent.parent
     os.chdir(project_root)
+    
+    # Handle recompute option
+    if args.recompute_individual:
+        recompute_individual_dgdvs_from_file(
+            combined_file=args.combined_file,
+            individual_dir=args.individual_dir,
+            delete_existing=True
+        )
+        return
     
     # Load dataset
     print("Loading MalNet-Tiny dataset...")
@@ -558,6 +511,75 @@ def main():
     
     print("\n[SUCCESS] DGDV computation complete!")
     print(f"Results saved to: {args.output_dir}")
+
+
+def recompute_individual_dgdvs_from_file(combined_file: str,
+                                         individual_dir: str,
+                                         delete_existing: bool = True) -> None:
+    """
+    Recompute individual DGDV files from a combined DGDV file
+    
+    Loads the combined DGDV file and saves each DGDV as an individual file.
+    Optionally deletes existing individual files first.
+    
+    Args:
+        combined_file: Path to combined DGDV pickle file (list of DGDV matrices)
+        individual_dir: Directory to save individual DGDV files
+        delete_existing: If True, delete all existing individual files before saving new ones
+    """
+    print("="*60)
+    print("Recomputing Individual DGDV Files")
+    print("="*60)
+    
+    combined_path = Path(combined_file)
+    individual_path = Path(individual_dir)
+    
+    if not combined_path.exists():
+        raise FileNotFoundError(f"Combined DGDV file not found: {combined_file}")
+    
+    # Create individual directory if it doesn't exist
+    individual_path.mkdir(parents=True, exist_ok=True)
+    
+    # Delete existing individual files if requested
+    if delete_existing:
+        print(f"\n[1/3] Deleting existing individual DGDV files in {individual_dir}...")
+        existing_files = list(individual_path.glob("graph_*.pkl"))
+        if existing_files:
+            for file in existing_files:
+                file.unlink()
+            print(f"  Deleted {len(existing_files)} existing files")
+        else:
+            print("  No existing files to delete")
+    else:
+        print(f"\n[1/3] Keeping existing individual DGDV files")
+    
+    # Load combined DGDV file
+    print(f"\n[2/3] Loading combined DGDV file: {combined_file}")
+    with open(combined_path, 'rb') as f:
+        dgdvs = pickle.load(f)
+    
+    if not isinstance(dgdvs, list):
+        raise ValueError(f"Expected list of DGDVs, got {type(dgdvs)}")
+    
+    print(f"  Loaded {len(dgdvs)} DGDVs")
+    if len(dgdvs) > 0:
+        print(f"  DGDV shape: {dgdvs[0].shape}")
+    
+    # Save each DGDV as an individual file
+    print(f"\n[3/3] Saving individual DGDV files to {individual_dir}...")
+    saved_count = 0
+    
+    for i, dgdv in enumerate(tqdm(dgdvs, desc="Saving individual files")):
+        if dgdv is not None and dgdv.size > 0:
+            individual_file = individual_path / f"graph_{i:05d}.pkl"
+            with open(individual_file, 'wb') as f:
+                pickle.dump(dgdv, f)
+            saved_count += 1
+    
+    print(f"\n  Saved {saved_count}/{len(dgdvs)} individual DGDV files")
+    print("="*60)
+    print("Recomputation Complete!")
+    print("="*60)
 
 
 if __name__ == "__main__":

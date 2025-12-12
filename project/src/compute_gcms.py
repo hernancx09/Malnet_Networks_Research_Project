@@ -2,6 +2,7 @@
 """
 GCM Computation Module
 Computes Graphlet Correlation Matrices (GCMs) from DGDVs
+Based on Yaveroglu et al. methodology using Spearman correlation
 """
 
 import numpy as np
@@ -9,6 +10,7 @@ import pickle
 from pathlib import Path
 from typing import List, Optional
 from tqdm import tqdm
+from scipy.stats import spearmanr
 
 # Import GPU acceleration if available
 try:
@@ -21,14 +23,19 @@ except ImportError:
 
 def compute_gcm_from_dgdv(dgdv: np.ndarray, use_gpu: bool = False) -> np.ndarray:
     """
-    Compute GCM vector from a single DGDV matrix
+    Compute GCM vector from a single DGDV matrix using Spearman correlation
+    Based on Yaveroglu et al. methodology
+    
+    Includes both 3-node and 4-node orbits:
+    - 3-node orbits: 2-40 (39 orbits)
+    - 4-node orbits: 41-128 (88 orbits)
     
     Args:
         dgdv: DGDV matrix of shape (n_nodes, n_orbits)
-        use_gpu: Whether to use GPU acceleration if available
+        use_gpu: Whether to use GPU acceleration if available (not used for Spearman)
     
     Returns:
-        GCM vector (flattened upper triangle of correlation matrix)
+        GCM vector (flattened upper triangle of Spearman correlation matrix)
     """
     if dgdv.size == 0 or dgdv.shape[0] == 0:
         return np.array([])
@@ -40,17 +47,25 @@ def compute_gcm_from_dgdv(dgdv: np.ndarray, use_gpu: bool = False) -> np.ndarray
         return np.array([])
     
     dgdv_filtered = dgdv[:, non_zero_orbits]
+    n_orbits = dgdv_filtered.shape[1]
     
-    # Compute correlation matrix
+    # Compute Spearman correlation matrix
     # Rows are nodes, columns are orbits
-    # We want correlation between orbits (across nodes)
+    # We want Spearman correlation between orbits (across nodes)
     try:
-        if GPU_AVAILABLE and use_gpu and gpu_corrcoef is not None:
-            corr_matrix = gpu_corrcoef(dgdv_filtered, use_gpu=True)
-        else:
-            # Compute correlation: transpose so orbits are rows
-            # Each row is an orbit, each column is a node
-            corr_matrix = np.corrcoef(dgdv_filtered.T)
+        # Use Spearman correlation (rank-based) instead of Pearson
+        # For each pair of orbits, compute Spearman correlation
+        corr_matrix = np.eye(n_orbits)  # Initialize with identity (diagonal = 1.0)
+        
+        for i in range(n_orbits):
+            for j in range(i + 1, n_orbits):
+                # Compute Spearman correlation between orbit i and orbit j
+                corr, _ = spearmanr(dgdv_filtered[:, i], dgdv_filtered[:, j])
+                # Handle NaN (can occur if all values are the same)
+                if np.isnan(corr):
+                    corr = 0.0
+                corr_matrix[i, j] = corr
+                corr_matrix[j, i] = corr  # Make symmetric
         
         if corr_matrix.size == 0:
             return np.array([])

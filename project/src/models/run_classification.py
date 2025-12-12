@@ -234,11 +234,11 @@ def main():
         pipeline.label_encoder = label_mapping  # Store label mapping
         
         if args.split == 'train_test':
-            # Train/test split (60/20/20, but we'll do 60/40 then split 40 into 20/20)
-            print(f"\n[3/5] Train/Test Split (60/20/20)...")
+            # Train/test split (70/15/15, but we'll do 70/30 then split 30 into 15/15)
+            print(f"\n[3/5] Train/Test Split (70/15/15)...")
             X_train, X_temp, y_train, y_temp = train_test_split_graphs(
                 features, labels,
-                test_size=0.4,
+                test_size=0.3,
                 random_state=args.random_state,
                 stratify=True
             )
