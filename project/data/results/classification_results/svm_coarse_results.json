@@ -1,365 +1,361 @@
 {
-  "accuracy": 0.78,
-  "macro_f1": 0.7771579672320785,
-  "weighted_f1": 0.7771579672320788,
-  "micro_f1": 0.78,
-  "macro_precision": 0.7757029109501589,
-  "weighted_precision": 0.7757029109501589,
-  "macro_recall": 0.78,
-  "weighted_recall": 0.78,
+  "accuracy": 0.764,
+  "macro_f1": 0.7598965879610183,
+  "weighted_f1": 0.7598965879610183,
+  "micro_f1": 0.764,
+  "macro_precision": 0.7605780326713599,
+  "weighted_precision": 0.7605780326713599,
+  "macro_recall": 0.764,
+  "weighted_recall": 0.764,
   "per_class": {
     "addisplay/kuguo": {
-      "f1": 0.7121212121212122,
-      "precision": 0.7193877551020408,
-      "recall": 0.705
+      "f1": 0.6896551724137931,
+      "precision": 0.7142857142857143,
+      "recall": 0.6666666666666666
     },
     "adware/airpush": {
-      "f1": 0.8894472361809045,
-      "precision": 0.8939393939393939,
-      "recall": 0.885
+      "f1": 0.8859060402684564,
+      "precision": 0.8918918918918919,
+      "recall": 0.88
     },
     "benign/benign": {
-      "f1": 0.5947368421052631,
-      "precision": 0.6277777777777778,
-      "recall": 0.565
+      "f1": 0.5620437956204379,
+      "precision": 0.6209677419354839,
+      "recall": 0.5133333333333333
     },
     "downloader/jiagu": {
-      "f1": 0.966183574879227,
-      "precision": 0.9345794392523364,
+      "f1": 0.9646302250803859,
+      "precision": 0.9316770186335404,
       "recall": 1.0
     },
     "trojan/artemis": {
-      "f1": 0.7233009708737864,
-      "precision": 0.7028301886792453,
-      "recall": 0.745
+      "f1": 0.6972477064220184,
+      "precision": 0.6440677966101694,
+      "recall": 0.76
     }
   },
-  "macro_auc": 0.9404575,
-  "weighted_auc": 0.9404575000000001,
+  "macro_auc": 0.9365844444444444,
+  "weighted_auc": 0.9365844444444446,
   "per_class_auc": {
-    "addisplay/kuguo": 0.941371875,
-    "adware/airpush": 0.99029375,
-    "benign/benign": 0.8816343750000001,
-    "downloader/jiagu": 0.993153125,
-    "trojan/artemis": 0.895834375
+    "addisplay/kuguo": 0.9370499999999999,
+    "adware/airpush": 0.9876,
+    "benign/benign": 0.8767166666666667,
+    "downloader/jiagu": 0.9949,
+    "trojan/artemis": 0.8866555555555555
   },
   "classification_report": {
     "addisplay/kuguo": {
-      "precision": 0.7193877551020408,
-      "recall": 0.705,
-      "f1-score": 0.7121212121212122,
-      "support": 200.0
+      "precision": 0.7142857142857143,
+      "recall": 0.6666666666666666,
+      "f1-score": 0.6896551724137931,
+      "support": 150.0
     },
     "adware/airpush": {
-      "precision": 0.8939393939393939,
-      "recall": 0.885,
-      "f1-score": 0.8894472361809045,
-      "support": 200.0
+      "precision": 0.8918918918918919,
+      "recall": 0.88,
+      "f1-score": 0.8859060402684564,
+      "support": 150.0
     },
     "benign/benign": {
-      "precision": 0.6277777777777778,
-      "recall": 0.565,
-      "f1-score": 0.5947368421052631,
-      "support": 200.0
+      "precision": 0.6209677419354839,
+      "recall": 0.5133333333333333,
+      "f1-score": 0.5620437956204379,
+      "support": 150.0
     },
     "downloader/jiagu": {
-      "precision": 0.9345794392523364,
+      "precision": 0.9316770186335404,
       "recall": 1.0,
-      "f1-score": 0.966183574879227,
-      "support": 200.0
+      "f1-score": 0.9646302250803859,
+      "support": 150.0
     },
     "trojan/artemis": {
-      "precision": 0.7028301886792453,
-      "recall": 0.745,
-      "f1-score": 0.7233009708737864,
-      "support": 200.0
+      "precision": 0.6440677966101694,
+      "recall": 0.76,
+      "f1-score": 0.6972477064220184,
+      "support": 150.0
     },
-    "accuracy": 0.78,
+    "accuracy": 0.764,
     "macro avg": {
-      "precision": 0.7757029109501589,
-      "recall": 0.78,
-      "f1-score": 0.7771579672320785,
-      "support": 1000.0
+      "precision": 0.7605780326713599,
+      "recall": 0.764,
+      "f1-score": 0.7598965879610183,
+      "support": 750.0
     },
     "weighted avg": {
-      "precision": 0.7757029109501589,
-      "recall": 0.78,
-      "f1-score": 0.7771579672320788,
-      "support": 1000.0
+      "precision": 0.7605780326713599,
+      "recall": 0.764,
+      "f1-score": 0.7598965879610183,
+      "support": 750.0
     }
   },
   "roc_curves": {
     "per_class_auc": {
-      "addisplay/kuguo": 0.941371875,
-      "adware/airpush": 0.99029375,
-      "benign/benign": 0.8816343750000001,
-      "downloader/jiagu": 0.993153125,
-      "trojan/artemis": 0.895834375
+      "addisplay/kuguo": 0.9370499999999999,
+      "adware/airpush": 0.9876,
+      "benign/benign": 0.8767166666666667,
+      "downloader/jiagu": 0.9949,
+      "trojan/artemis": 0.8866555555555555
     },
-    "macro_auc": 0.9404575
+    "macro_auc": 0.9365844444444444
   },
   "pr_curves": {
     "per_class_aupr": {
-      "addisplay/kuguo": 0.7675118545456336,
-      "adware/airpush": 0.9635774494037044,
-      "benign/benign": 0.6508519403839793,
-      "downloader/jiagu": 0.9489935900847719,
-      "trojan/artemis": 0.7749349092776383
+      "addisplay/kuguo": 0.7839103185900491,
+      "adware/airpush": 0.9601702582993168,
+      "benign/benign": 0.6066313440263981,
+      "downloader/jiagu": 0.9600832519907765,
+      "trojan/artemis": 0.7474418388993843
     },
-    "macro_aupr": 0.8211739487391455
+    "macro_aupr": 0.8116474023611848
   },
-  "macro_aupr": 0.8211739487391455,
+  "macro_aupr": 0.8116474023611848,
   "misclassifications": {
-    "total_samples": 1000,
-    "misclassified_samples": 220,
-    "accuracy": 0.78,
-    "misclassification_rate": 0.22,
+    "total_samples": 750,
+    "misclassified_samples": 177,
+    "accuracy": 0.764,
+    "misclassification_rate": 0.236,
     "patterns": [
       {
-        "pattern": "benign/benign \u2192 addisplay/kuguo",
-        "count": 41,
-        "percentage": 18.636363636363637,
+        "pattern": "benign/benign \u2192 trojan/artemis",
+        "count": 35,
+        "percentage": 19.774011299435028,
         "sample_indices": [
-          24,
-          28,
-          50,
-          58,
-          129,
-          160,
-          167,
-          187,
-          215,
-          248
+          3,
+          11,
+          35,
+          41,
+          61,
+          98,
+          106,
+          146,
+          174,
+          180
         ]
       },
       {
-        "pattern": "benign/benign \u2192 trojan/artemis",
-        "count": 36,
-        "percentage": 16.363636363636363,
+        "pattern": "benign/benign \u2192 addisplay/kuguo",
+        "count": 31,
+        "percentage": 17.51412429378531,
         "sample_indices": [
-          34,
-          38,
+          4,
+          53,
           59,
-          95,
-          150,
-          159,
-          161,
-          181,
-          236,
-          265
+          89,
+          131,
+          132,
+          157,
+          255,
+          270,
+          283
         ]
       },
       {
         "pattern": "addisplay/kuguo \u2192 benign/benign",
-        "count": 31,
-        "percentage": 14.09090909090909,
+        "count": 23,
+        "percentage": 12.994350282485875,
         "sample_indices": [
-          32,
-          85,
-          111,
-          226,
-          259,
-          313,
-          324,
-          327,
-          330,
-          342
+          0,
+          31,
+          57,
+          60,
+          123,
+          158,
+          248,
+          273,
+          287,
+          366
         ]
       },
       {
         "pattern": "addisplay/kuguo \u2192 trojan/artemis",
-        "count": 24,
-        "percentage": 10.909090909090908,
+        "count": 22,
+        "percentage": 12.429378531073446,
         "sample_indices": [
-          36,
-          41,
-          87,
-          100,
-          142,
-          158,
-          163,
-          166,
-          197,
-          302
-        ]
-      },
-      {
-        "pattern": "adware/airpush \u2192 benign/benign",
-        "count": 20,
-        "percentage": 9.090909090909092,
-        "sample_indices": [
-          65,
-          77,
-          93,
-          105,
-          246,
-          276,
-          380,
-          404,
-          412,
-          416
+          52,
+          85,
+          86,
+          134,
+          149,
+          170,
+          257,
+          336,
+          341,
+          369
         ]
       },
       {
         "pattern": "trojan/artemis \u2192 benign/benign",
-        "count": 16,
-        "percentage": 7.2727272727272725,
+        "count": 13,
+        "percentage": 7.344632768361582,
         "sample_indices": [
-          90,
-          101,
-          260,
-          319,
-          386,
-          427,
-          428,
-          446,
-          477,
-          618
+          141,
+          156,
+          213,
+          235,
+          237,
+          416,
+          422,
+          535,
+          548,
+          582
         ]
       },
       {
-        "pattern": "trojan/artemis \u2192 addisplay/kuguo",
-        "count": 14,
-        "percentage": 6.363636363636363,
+        "pattern": "adware/airpush \u2192 benign/benign",
+        "count": 11,
+        "percentage": 6.214689265536723,
         "sample_indices": [
-          168,
-          205,
-          251,
-          316,
-          417,
-          566,
-          582,
-          584,
-          592,
-          615
+          5,
+          66,
+          94,
+          160,
+          204,
+          224,
+          408,
+          418,
+          623,
+          673
         ]
       },
       {
         "pattern": "trojan/artemis \u2192 downloader/jiagu",
-        "count": 12,
-        "percentage": 5.454545454545454,
+        "count": 10,
+        "percentage": 5.649717514124294,
         "sample_indices": [
-          311,
-          494,
-          495,
-          552,
-          627,
-          777,
-          789,
-          801,
-          896,
-          901
+          21,
+          147,
+          306,
+          312,
+          491,
+          558,
+          571,
+          605,
+          731,
+          738
         ]
       },
       {
-        "pattern": "trojan/artemis \u2192 adware/airpush",
-        "count": 9,
-        "percentage": 4.090909090909091,
+        "pattern": "trojan/artemis \u2192 addisplay/kuguo",
+        "count": 8,
+        "percentage": 4.519774011299435,
         "sample_indices": [
-          8,
-          334,
-          373,
-          469,
-          487,
-          710,
-          714,
-          956,
-          998
+          32,
+          68,
+          115,
+          155,
+          196,
+          477,
+          720,
+          736
         ]
       },
       {
         "pattern": "benign/benign \u2192 adware/airpush",
-        "count": 9,
-        "percentage": 4.090909090909091,
+        "count": 6,
+        "percentage": 3.389830508474576,
         "sample_indices": [
-          86,
-          192,
-          204,
-          300,
-          379,
-          529,
-          760,
-          790,
-          990
-        ]
-      },
-      {
-        "pattern": "addisplay/kuguo \u2192 adware/airpush",
-        "count": 3,
-        "percentage": 1.3636363636363635,
-        "sample_indices": [
-          126,
-          456,
-          604
+          20,
+          234,
+          251,
+          509,
+          577,
+          727
         ]
       },
       {
         "pattern": "adware/airpush \u2192 trojan/artemis",
-        "count": 3,
-        "percentage": 1.3636363636363635,
+        "count": 6,
+        "percentage": 3.389830508474576,
         "sample_indices": [
-          376,
-          747,
-          799
+          392,
+          432,
+          433,
+          572,
+          670,
+          698
+        ]
+      },
+      {
+        "pattern": "trojan/artemis \u2192 adware/airpush",
+        "count": 5,
+        "percentage": 2.824858757062147,
+        "sample_indices": [
+          16,
+          216,
+          305,
+          542,
+          743
+        ]
+      },
+      {
+        "pattern": "addisplay/kuguo \u2192 adware/airpush",
+        "count": 5,
+        "percentage": 2.824858757062147,
+        "sample_indices": [
+          214,
+          276,
+          285,
+          364,
+          562
+        ]
+      },
+      {
+        "pattern": "adware/airpush \u2192 addisplay/kuguo",
+        "count": 1,
+        "percentage": 0.5649717514124294,
+        "sample_indices": [
+          411
         ]
       },
       {
         "pattern": "benign/benign \u2192 downloader/jiagu",
         "count": 1,
-        "percentage": 0.45454545454545453,
+        "percentage": 0.5649717514124294,
         "sample_indices": [
-          83
-        ]
-      },
-      {
-        "pattern": "addisplay/kuguo \u2192 downloader/jiagu",
-        "count": 1,
-        "percentage": 0.45454545454545453,
-        "sample_indices": [
-          269
+          454
         ]
       }
     ],
     "top_patterns": [
       {
-        "pattern": "benign/benign \u2192 addisplay/kuguo",
-        "count": 41
-      },
-      {
         "pattern": "benign/benign \u2192 trojan/artemis",
-        "count": 36
+        "count": 35
       },
       {
-        "pattern": "addisplay/kuguo \u2192 benign/benign",
+        "pattern": "benign/benign \u2192 addisplay/kuguo",
         "count": 31
       },
       {
-        "pattern": "addisplay/kuguo \u2192 trojan/artemis",
-        "count": 24
+        "pattern": "addisplay/kuguo \u2192 benign/benign",
+        "count": 23
       },
       {
-        "pattern": "adware/airpush \u2192 benign/benign",
-        "count": 20
+        "pattern": "addisplay/kuguo \u2192 trojan/artemis",
+        "count": 22
       },
       {
         "pattern": "trojan/artemis \u2192 benign/benign",
-        "count": 16
+        "count": 13
       },
       {
-        "pattern": "trojan/artemis \u2192 addisplay/kuguo",
-        "count": 14
+        "pattern": "adware/airpush \u2192 benign/benign",
+        "count": 11
       },
       {
         "pattern": "trojan/artemis \u2192 downloader/jiagu",
-        "count": 12
+        "count": 10
       },
       {
-        "pattern": "trojan/artemis \u2192 adware/airpush",
-        "count": 9
+        "pattern": "trojan/artemis \u2192 addisplay/kuguo",
+        "count": 8
       },
       {
         "pattern": "benign/benign \u2192 adware/airpush",
-        "count": 9
+        "count": 6
+      },
+      {
+        "pattern": "adware/airpush \u2192 trojan/artemis",
+        "count": 6
       }
     ]
   }

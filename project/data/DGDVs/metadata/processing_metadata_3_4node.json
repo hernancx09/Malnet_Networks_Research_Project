@@ -5008,7 +5008,7 @@
   "min_graphlet_size": 3,
   "max_graphlet_size": 4,
   "dgdv_shape": [
-    1302,
+    999,
     127
   ],
   "labels": [
