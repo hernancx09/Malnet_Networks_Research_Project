@@ -115,10 +115,6 @@ class DGDVProcessor:
         individual_dir = self.output_dir / "gdvs" / "individual"
         individual_dir.mkdir(parents=True, exist_ok=True)
         
-        # Individual GCM directory
-        individual_gcm_dir = self.output_dir / "gcms" / "individual"
-        individual_gcm_dir.mkdir(parents=True, exist_ok=True)
-        
         # Check for existing checkpoint if resuming
         start_idx = 0
         successful = []
@@ -223,7 +219,7 @@ class DGDVProcessor:
         
         # Compute and save GCMs incrementally from individual files
         print(f"\nComputing GCMs from saved DGDVs...")
-        all_gcms = self._compute_gcms_from_files(individual_dir, gcms_file, individual_gcm_dir, successful, batch_size=50)
+        all_gcms = self._compute_gcms_from_files(individual_dir, gcms_file, successful, batch_size=50)
         
         # Final save
         print(f"\nFinalizing results...")
@@ -280,117 +276,37 @@ class DGDVProcessor:
     
     def _combine_individual_files(self, individual_dir: Path, output_file: Path, 
                                   successful_indices: List[int], batch_size: int = 100):
-        """Combine individual DGDV files into final output file using chunked approach"""
-        import shutil
+        """Combine individual DGDV files into final output file in batches"""
+        all_dgdvs = []
         
-        # Use chunked approach: save to temporary chunk files, then merge without loading all at once
-        temp_chunks_dir = output_file.parent / "temp_chunks"
-        temp_chunks_dir.mkdir(exist_ok=True)
-        chunk_files = []
-        checkpoint_interval = 5  # Save chunk every 5 batches (500 DGDVs) to reduce memory
+        # Load in batches to avoid memory issues
+        for batch_start in range(0, len(successful_indices), batch_size):
+            batch_end = min(batch_start + batch_size, len(successful_indices))
+            batch_indices = successful_indices[batch_start:batch_end]
+            
+            batch_dgdvs = []
+            for idx in batch_indices:
+                individual_file = individual_dir / f"graph_{idx:05d}.pkl"
+                if individual_file.exists():
+                    with open(individual_file, 'rb') as f:
+                        batch_dgdvs.append(pickle.load(f))
+            
+            all_dgdvs.extend(batch_dgdvs)
+            
+            # Save intermediate checkpoint
+            with open(output_file, 'wb') as f:
+                pickle.dump(all_dgdvs, f)
+            
+            if batch_end % (batch_size * 5) == 0:
+                print(f"    Combined {batch_end}/{len(successful_indices)} DGDVs")
         
-        try:
-            # Process in batches and save to chunk files
-            for batch_start in range(0, len(successful_indices), batch_size):
-                batch_end = min(batch_start + batch_size, len(successful_indices))
-                batch_indices = successful_indices[batch_start:batch_end]
-                
-                batch_dgdvs = []
-                for idx in batch_indices:
-                    individual_file = individual_dir / f"graph_{idx:05d}.pkl"
-                    if individual_file.exists():
-                        with open(individual_file, 'rb') as f:
-                            batch_dgdvs.append(pickle.load(f))
-                
-                # Progress update
-                if batch_end % (batch_size * 5) == 0 or batch_end == len(successful_indices):
-                    print(f"    Combined {batch_end}/{len(successful_indices)} DGDVs")
-                
-                # Save to chunk file periodically
-                batch_num = batch_start // batch_size
-                chunk_num = batch_num // checkpoint_interval
-                chunk_file = temp_chunks_dir / f"chunk_{chunk_num:04d}.pkl"
-                
-                # Load existing chunk if it exists, otherwise start new
-                if chunk_file.exists():
-                    with open(chunk_file, 'rb') as f:
-                        existing_chunk = pickle.load(f)
-                    batch_dgdvs = existing_chunk + batch_dgdvs
-                
-                # Save chunk (overwrite or create)
-                with open(chunk_file, 'wb') as f:
-                    pickle.dump(batch_dgdvs, f, protocol=pickle.HIGHEST_PROTOCOL)
-                
-                # Track chunk file if not already tracked
-                if chunk_file not in chunk_files:
-                    chunk_files.append(chunk_file)
-                    print(f"    Saved chunk {len(chunk_files)} at {batch_end}/{len(successful_indices)} DGDVs")
-                
-                # Clear batch from memory immediately
-                del batch_dgdvs
-            
-            # Merge chunks in stages to avoid loading all at once
-            print(f"    Merging {len(chunk_files)} chunks into final file...")
-            merge_group_size = 3  # Merge 3 chunks at a time
-            
-            # Stage 1: Merge chunks into intermediate groups
-            intermediate_files = []
-            sorted_chunks = sorted(chunk_files)
-            
-            for group_start in range(0, len(sorted_chunks), merge_group_size):
-                group_end = min(group_start + merge_group_size, len(sorted_chunks))
-                group_chunks = sorted_chunks[group_start:group_end]
-                
-                # Merge this group
-                group_dgdvs = []
-                for chunk_file in group_chunks:
-                    with open(chunk_file, 'rb') as f:
-                        chunk_dgdvs = pickle.load(f)
-                        group_dgdvs.extend(chunk_dgdvs)
-                        del chunk_dgdvs
-                
-                # Save intermediate merged file
-                intermediate_file = temp_chunks_dir / f"merged_group_{group_start // merge_group_size:04d}.pkl"
-                with open(intermediate_file, 'wb') as f:
-                    pickle.dump(group_dgdvs, f, protocol=pickle.HIGHEST_PROTOCOL)
-                intermediate_files.append(intermediate_file)
-                del group_dgdvs
-                
-                print(f"    Merged group {len(intermediate_files)} ({group_end}/{len(sorted_chunks)} chunks)")
-            
-            # Stage 2: Merge intermediate files into final file
-            print(f"    Merging {len(intermediate_files)} groups into final file...")
-            all_dgdvs = []
-            for i, inter_file in enumerate(intermediate_files):
-                with open(inter_file, 'rb') as f:
-                    group_dgdvs = pickle.load(f)
-                    all_dgdvs.extend(group_dgdvs)
-                    del group_dgdvs
-                
-                if (i + 1) % 2 == 0 or (i + 1) == len(intermediate_files):
-                    print(f"    Merged {i + 1}/{len(intermediate_files)} groups ({len(all_dgdvs)} DGDVs so far)...")
-            
-            # Write final combined file
-            print(f"    Writing final file with {len(all_dgdvs)} DGDVs...")
-            temp_file = output_file.with_suffix('.tmp')
-            with open(temp_file, 'wb') as f:
-                pickle.dump(all_dgdvs, f, protocol=pickle.HIGHEST_PROTOCOL)
-            
-            # Atomic move
-            temp_file.replace(output_file)
-            file_size_mb = output_file.stat().st_size / (1024**2)
-            print(f"    Final file saved ({file_size_mb:.1f} MB)")
-            
-        finally:
-            # Clean up chunk files
-            if temp_chunks_dir.exists():
-                shutil.rmtree(temp_chunks_dir)
-                print(f"    Cleaned up temporary chunk files")
+        # Final save
+        with open(output_file, 'wb') as f:
+            pickle.dump(all_dgdvs, f)
     
     def _compute_gcms_from_files(self, individual_dir: Path, gcms_file: Path,
-                                individual_gcm_dir: Path, successful_indices: List[int], 
-                                batch_size: int = 50) -> List[np.ndarray]:
-        """Compute GCMs from individual DGDV files, saving both individual and combined files"""
+                                successful_indices: List[int], batch_size: int = 50) -> List[np.ndarray]:
+        """Compute GCMs from individual DGDV files, loading them in batches"""
         # Check for existing GCMs
         existing_gcms = []
         start_idx = 0
@@ -423,15 +339,10 @@ class DGDVProcessor:
             
             # Compute GCMs for this batch using Spearman correlation
             from compute_gcms import compute_gcm_from_dgdv
-            for i, (idx, dgdv) in enumerate(zip(batch_indices, batch_dgdvs)):
+            for dgdv in batch_dgdvs:
                 # Use Spearman correlation implementation
                 gcm = compute_gcm_from_dgdv(dgdv, use_gpu=False)
                 gcms.append(gcm)
-                
-                # Save individual GCM file immediately
-                individual_gcm_file = individual_gcm_dir / f"graph_{idx:05d}.pkl"
-                with open(individual_gcm_file, 'wb') as f:
-                    pickle.dump(gcm, f)
             
             # Clear batch from memory
             del batch_dgdvs
@@ -441,9 +352,8 @@ class DGDVProcessor:
                 with open(gcms_file, 'wb') as f:
                     pickle.dump(gcms, f)
                 if batch_end % (batch_size * 5) == 0:
-                    print(f"    GCM checkpoint: {batch_end}/{len(successful_indices)} (saved {batch_end} individual files)")
+                    print(f"    GCM checkpoint: {batch_end}/{len(successful_indices)}")
         
-        print(f"  Saved {len(gcms)} individual GCM files to {individual_gcm_dir}")
         return gcms
     
     def _compute_gcms(self, dgdvs: List[np.ndarray]) -> List[np.ndarray]:
@@ -556,12 +466,10 @@ def main():
                        help='Save individual GDV files')
     parser.add_argument('--recompute-individual', action='store_true',
                        help='Recompute individual DGDV files from combined file')
-    parser.add_argument('--split-gcm', action='store_true',
-                       help='Split combined GCM file into individual GCM files')
-    parser.add_argument('--combined-file', type=str, default='data/gdvs/gcms/all_gcms_3_4node.pkl',
-                       help='Path to combined file (for --recompute-individual or --split-gcm)')
-    parser.add_argument('--individual-dir', type=str, default=None,
-                       help='Directory for individual files (auto-detected if not specified)')
+    parser.add_argument('--combined-file', type=str, default='data/DGDVs/all_dgdvs_3_4node.pkl',
+                       help='Path to combined DGDV file (for --recompute-individual)')
+    parser.add_argument('--individual-dir', type=str, default='data/DGDVs/individual',
+                       help='Directory for individual DGDV files (for --recompute-individual)')
     
     args = parser.parse_args()
     
@@ -569,25 +477,8 @@ def main():
     project_root = Path(__file__).parent.parent
     os.chdir(project_root)
     
-    # Handle split GCM option
-    if args.split_gcm:
-        if args.individual_dir is None:
-            # Auto-detect individual GCM directory
-            gcm_file_path = Path(args.combined_file)
-            args.individual_dir = str(gcm_file_path.parent / "individual")
-        split_gcm_file_into_individual(
-            combined_file=args.combined_file,
-            individual_dir=args.individual_dir,
-            delete_existing=True
-        )
-        return
-    
     # Handle recompute option
     if args.recompute_individual:
-        if args.individual_dir is None:
-            # Auto-detect individual DGDV directory
-            dgdv_file_path = Path(args.combined_file)
-            args.individual_dir = str(dgdv_file_path.parent / "individual")
         recompute_individual_dgdvs_from_file(
             combined_file=args.combined_file,
             individual_dir=args.individual_dir,
@@ -620,78 +511,6 @@ def main():
     
     print("\n[SUCCESS] DGDV computation complete!")
     print(f"Results saved to: {args.output_dir}")
-
-
-def split_gcm_file_into_individual(combined_file: str,
-                                    individual_dir: str,
-                                    delete_existing: bool = True) -> None:
-    """
-    Split a combined GCM file into individual GCM files
-    
-    Loads the combined GCM file and saves each GCM as an individual file.
-    Optionally deletes existing individual files first.
-    
-    Args:
-        combined_file: Path to combined GCM pickle file (list of GCM arrays)
-        individual_dir: Directory to save individual GCM files
-        delete_existing: If True, delete all existing individual files before saving new ones
-    """
-    print("="*60)
-    print("Splitting Combined GCM File into Individual Files")
-    print("="*60)
-    
-    combined_path = Path(combined_file)
-    individual_path = Path(individual_dir)
-    
-    if not combined_path.exists():
-        raise FileNotFoundError(f"Combined GCM file not found: {combined_file}")
-    
-    # Create individual directory if it doesn't exist
-    individual_path.mkdir(parents=True, exist_ok=True)
-    
-    # Delete existing individual files if requested
-    if delete_existing:
-        print(f"\n[1/3] Deleting existing individual GCM files in {individual_dir}...")
-        existing_files = list(individual_path.glob("graph_*.pkl"))
-        if existing_files:
-            for file in existing_files:
-                file.unlink()
-            print(f"  Deleted {len(existing_files)} existing files")
-        else:
-            print("  No existing files to delete")
-    else:
-        print(f"\n[1/3] Keeping existing individual GCM files")
-    
-    # Load combined GCM file
-    print(f"\n[2/3] Loading combined GCM file: {combined_file}")
-    with open(combined_path, 'rb') as f:
-        gcms = pickle.load(f)
-    
-    if not isinstance(gcms, list):
-        raise ValueError(f"Expected list of GCMs, got {type(gcms)}")
-    
-    print(f"  Loaded {len(gcms)} GCMs")
-    if len(gcms) > 0:
-        valid_gcms = [gcm for gcm in gcms if gcm.size > 0]
-        if valid_gcms:
-            print(f"  Valid GCMs: {len(valid_gcms)}/{len(gcms)}")
-            print(f"  Average GCM size: {np.mean([gcm.size for gcm in valid_gcms]):.1f}")
-    
-    # Save each GCM as an individual file
-    print(f"\n[3/3] Saving individual GCM files to {individual_dir}...")
-    saved_count = 0
-    
-    for i, gcm in enumerate(tqdm(gcms, desc="Saving individual files")):
-        if gcm is not None and gcm.size > 0:
-            individual_file = individual_path / f"graph_{i:05d}.pkl"
-            with open(individual_file, 'wb') as f:
-                pickle.dump(gcm, f)
-            saved_count += 1
-    
-    print(f"\n  Saved {saved_count}/{len(gcms)} individual GCM files")
-    print("="*60)
-    print("GCM File Splitting Complete!")
-    print("="*60)
 
 
 def recompute_individual_dgdvs_from_file(combined_file: str,
