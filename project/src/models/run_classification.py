@@ -59,7 +59,7 @@ def main():
         type=str,
         choices=['train_test', 'cv'],
         default='train_test',
-        help='Split method: train_test (60/20/20) or cv (5-fold cross-validation)'
+        help='Split method: train_test (70/15/15) or cv (5-fold cross-validation)'
     )
     
     # Input files (combined files)
