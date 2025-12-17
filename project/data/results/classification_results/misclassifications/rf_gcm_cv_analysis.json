@@ -1,0 +1,206 @@
+{
+  "total_samples": 5000,
+  "misclassified_samples": 221,
+  "accuracy": 0.9558,
+  "misclassification_rate": 0.0442,
+  "patterns": [
+    {
+      "pattern": "adware/airpush \u2192 benign/benign",
+      "count": 55,
+      "percentage": 24.8868778280543,
+      "sample_indices": [
+        1002,
+        1041,
+        1051,
+        1074,
+        1097,
+        1127,
+        1131,
+        1134,
+        1146,
+        1148
+      ]
+    },
+    {
+      "pattern": "trojan/artemis \u2192 benign/benign",
+      "count": 44,
+      "percentage": 19.90950226244344,
+      "sample_indices": [
+        4010,
+        4019,
+        4039,
+        4046,
+        4068,
+        4107,
+        4121,
+        4155,
+        4174,
+        4181
+      ]
+    },
+    {
+      "pattern": "benign/benign \u2192 addisplay/kuguo",
+      "count": 26,
+      "percentage": 11.76470588235294,
+      "sample_indices": [
+        2089,
+        2100,
+        2102,
+        2103,
+        2140,
+        2172,
+        2248,
+        2251,
+        2272,
+        2300
+      ]
+    },
+    {
+      "pattern": "addisplay/kuguo \u2192 benign/benign",
+      "count": 25,
+      "percentage": 11.312217194570136,
+      "sample_indices": [
+        54,
+        74,
+        79,
+        82,
+        98,
+        188,
+        195,
+        242,
+        300,
+        342
+      ]
+    },
+    {
+      "pattern": "trojan/artemis \u2192 downloader/jiagu",
+      "count": 22,
+      "percentage": 9.95475113122172,
+      "sample_indices": [
+        4000,
+        4017,
+        4022,
+        4075,
+        4102,
+        4119,
+        4128,
+        4149,
+        4218,
+        4229
+      ]
+    },
+    {
+      "pattern": "trojan/artemis \u2192 addisplay/kuguo",
+      "count": 22,
+      "percentage": 9.95475113122172,
+      "sample_indices": [
+        4079,
+        4094,
+        4157,
+        4182,
+        4308,
+        4311,
+        4352,
+        4378,
+        4435,
+        4443
+      ]
+    },
+    {
+      "pattern": "benign/benign \u2192 adware/airpush",
+      "count": 18,
+      "percentage": 8.144796380090497,
+      "sample_indices": [
+        2015,
+        2054,
+        2067,
+        2132,
+        2218,
+        2365,
+        2479,
+        2529,
+        2532,
+        2684
+      ]
+    },
+    {
+      "pattern": "trojan/artemis \u2192 adware/airpush",
+      "count": 4,
+      "percentage": 1.809954751131222,
+      "sample_indices": [
+        4186,
+        4374,
+        4450,
+        4651
+      ]
+    },
+    {
+      "pattern": "downloader/jiagu \u2192 trojan/artemis",
+      "count": 3,
+      "percentage": 1.3574660633484164,
+      "sample_indices": [
+        3060,
+        3537,
+        3890
+      ]
+    },
+    {
+      "pattern": "benign/benign \u2192 trojan/artemis",
+      "count": 1,
+      "percentage": 0.4524886877828055,
+      "sample_indices": [
+        2176
+      ]
+    },
+    {
+      "pattern": "benign/benign \u2192 downloader/jiagu",
+      "count": 1,
+      "percentage": 0.4524886877828055,
+      "sample_indices": [
+        2730
+      ]
+    }
+  ],
+  "top_patterns": [
+    {
+      "pattern": "adware/airpush \u2192 benign/benign",
+      "count": 55
+    },
+    {
+      "pattern": "trojan/artemis \u2192 benign/benign",
+      "count": 44
+    },
+    {
+      "pattern": "benign/benign \u2192 addisplay/kuguo",
+      "count": 26
+    },
+    {
+      "pattern": "addisplay/kuguo \u2192 benign/benign",
+      "count": 25
+    },
+    {
+      "pattern": "trojan/artemis \u2192 downloader/jiagu",
+      "count": 22
+    },
+    {
+      "pattern": "trojan/artemis \u2192 addisplay/kuguo",
+      "count": 22
+    },
+    {
+      "pattern": "benign/benign \u2192 adware/airpush",
+      "count": 18
+    },
+    {
+      "pattern": "trojan/artemis \u2192 adware/airpush",
+      "count": 4
+    },
+    {
+      "pattern": "downloader/jiagu \u2192 trojan/artemis",
+      "count": 3
+    },
+    {
+      "pattern": "benign/benign \u2192 trojan/artemis",
+      "count": 1
+    }
+  ]
+}

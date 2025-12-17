@@ -1,198 +1,195 @@
 {
-  "total_samples": 1000,
-  "misclassified_samples": 113,
-  "accuracy": 0.887,
-  "misclassification_rate": 0.113,
+  "total_samples": 750,
+  "misclassified_samples": 93,
+  "accuracy": 0.876,
+  "misclassification_rate": 0.124,
   "patterns": [
     {
-      "pattern": "addisplay/kuguo \u2192 benign/benign",
-      "count": 22,
-      "percentage": 19.469026548672566,
-      "sample_indices": [
-        7,
-        32,
-        126,
-        182,
-        206,
-        226,
-        270,
-        284,
-        327,
-        330
-      ]
-    },
-    {
       "pattern": "benign/benign \u2192 addisplay/kuguo",
-      "count": 20,
-      "percentage": 17.699115044247787,
+      "count": 22,
+      "percentage": 23.655913978494624,
       "sample_indices": [
-        24,
-        44,
-        99,
-        150,
+        4,
+        53,
+        89,
+        122,
+        270,
         280,
-        285,
-        387,
-        441,
-        443,
-        527
+        313,
+        314,
+        340,
+        359
       ]
     },
     {
-      "pattern": "adware/airpush \u2192 benign/benign",
-      "count": 18,
-      "percentage": 15.929203539823009,
+      "pattern": "addisplay/kuguo \u2192 benign/benign",
+      "count": 16,
+      "percentage": 17.20430107526882,
       "sample_indices": [
-        93,
-        148,
-        276,
-        277,
-        412,
-        463,
-        490,
-        645,
-        724,
-        740
+        31,
+        62,
+        86,
+        176,
+        248,
+        273,
+        285,
+        336,
+        351,
+        366
       ]
     },
     {
       "pattern": "trojan/artemis \u2192 benign/benign",
-      "count": 16,
-      "percentage": 14.15929203539823,
+      "count": 13,
+      "percentage": 13.978494623655912,
       "sample_indices": [
-        101,
-        175,
-        260,
-        319,
-        337,
-        427,
-        428,
-        477,
-        520,
-        615
-      ]
-    },
-    {
-      "pattern": "benign/benign \u2192 adware/airpush",
-      "count": 15,
-      "percentage": 13.274336283185843,
-      "sample_indices": [
-        135,
-        169,
-        177,
-        204,
-        239,
+        21,
+        141,
+        155,
+        156,
+        196,
         256,
-        389,
-        432,
-        510,
-        519
+        477,
+        535,
+        548,
+        558
       ]
     },
     {
-      "pattern": "trojan/artemis \u2192 addisplay/kuguo",
-      "count": 8,
-      "percentage": 7.079646017699115,
+      "pattern": "adware/airpush \u2192 benign/benign",
+      "count": 13,
+      "percentage": 13.978494623655912,
       "sample_indices": [
-        205,
-        291,
-        417,
-        446,
-        544,
-        584,
-        710,
-        798
-      ]
-    },
-    {
-      "pattern": "trojan/artemis \u2192 downloader/jiagu",
-      "count": 5,
-      "percentage": 4.424778761061947,
-      "sample_indices": [
-        311,
-        552,
-        618,
-        627,
-        801
+        55,
+        66,
+        94,
+        150,
+        224,
+        275,
+        345,
+        408,
+        411,
+        418
       ]
     },
     {
       "pattern": "benign/benign \u2192 trojan/artemis",
-      "count": 4,
-      "percentage": 3.5398230088495577,
+      "count": 6,
+      "percentage": 6.451612903225806,
       "sample_indices": [
-        109,
-        478,
+        11,
+        41,
+        190,
+        466,
+        485,
+        612
+      ]
+    },
+    {
+      "pattern": "benign/benign \u2192 adware/airpush",
+      "count": 6,
+      "percentage": 6.451612903225806,
+      "sample_indices": [
+        20,
+        399,
+        465,
+        470,
         577,
-        675
+        714
+      ]
+    },
+    {
+      "pattern": "trojan/artemis \u2192 downloader/jiagu",
+      "count": 6,
+      "percentage": 6.451612903225806,
+      "sample_indices": [
+        147,
+        306,
+        312,
+        571,
+        605,
+        731
       ]
     },
     {
       "pattern": "trojan/artemis \u2192 adware/airpush",
-      "count": 3,
-      "percentage": 2.6548672566371683,
+      "count": 5,
+      "percentage": 5.376344086021505,
       "sample_indices": [
-        487,
-        923,
-        956
+        16,
+        305,
+        449,
+        542,
+        582
+      ]
+    },
+    {
+      "pattern": "trojan/artemis \u2192 addisplay/kuguo",
+      "count": 4,
+      "percentage": 4.301075268817205,
+      "sample_indices": [
+        32,
+        68,
+        620,
+        720
+      ]
+    },
+    {
+      "pattern": "addisplay/kuguo \u2192 trojan/artemis",
+      "count": 1,
+      "percentage": 1.0752688172043012,
+      "sample_indices": [
+        60
       ]
     },
     {
       "pattern": "addisplay/kuguo \u2192 adware/airpush",
       "count": 1,
-      "percentage": 0.8849557522123894,
+      "percentage": 1.0752688172043012,
       "sample_indices": [
-        604
-      ]
-    },
-    {
-      "pattern": "adware/airpush \u2192 trojan/artemis",
-      "count": 1,
-      "percentage": 0.8849557522123894,
-      "sample_indices": [
-        864
+        149
       ]
     }
   ],
   "top_patterns": [
     {
-      "pattern": "addisplay/kuguo \u2192 benign/benign",
+      "pattern": "benign/benign \u2192 addisplay/kuguo",
       "count": 22
     },
     {
-      "pattern": "benign/benign \u2192 addisplay/kuguo",
-      "count": 20
-    },
-    {
-      "pattern": "adware/airpush \u2192 benign/benign",
-      "count": 18
-    },
-    {
-      "pattern": "trojan/artemis \u2192 benign/benign",
+      "pattern": "addisplay/kuguo \u2192 benign/benign",
       "count": 16
     },
     {
-      "pattern": "benign/benign \u2192 adware/airpush",
-      "count": 15
+      "pattern": "trojan/artemis \u2192 benign/benign",
+      "count": 13
     },
     {
-      "pattern": "trojan/artemis \u2192 addisplay/kuguo",
-      "count": 8
-    },
-    {
-      "pattern": "trojan/artemis \u2192 downloader/jiagu",
-      "count": 5
+      "pattern": "adware/airpush \u2192 benign/benign",
+      "count": 13
     },
     {
       "pattern": "benign/benign \u2192 trojan/artemis",
-      "count": 4
+      "count": 6
+    },
+    {
+      "pattern": "benign/benign \u2192 adware/airpush",
+      "count": 6
+    },
+    {
+      "pattern": "trojan/artemis \u2192 downloader/jiagu",
+      "count": 6
     },
     {
       "pattern": "trojan/artemis \u2192 adware/airpush",
-      "count": 3
+      "count": 5
     },
     {
-      "pattern": "addisplay/kuguo \u2192 adware/airpush",
+      "pattern": "trojan/artemis \u2192 addisplay/kuguo",
+      "count": 4
+    },
+    {
+      "pattern": "addisplay/kuguo \u2192 trojan/artemis",
       "count": 1
     }
   ]

@@ -1,0 +1,16 @@
+Rank,Pattern,Count,Percentage,Sample Indices
+1,benign/benign → addisplay/kuguo,148,23.05%,"2003, 2007, 2024, 2025, 2026, 2037, 2053, 2057, 2069, 2070"
+2,trojan/artemis → benign/benign,105,16.36%,"4010, 4019, 4030, 4033, 4039, 4046, 4051, 4055, 4056, 4083"
+3,adware/airpush → benign/benign,88,13.71%,"1002, 1014, 1029, 1037, 1041, 1044, 1074, 1097, 1108, 1109"
+4,addisplay/kuguo → benign/benign,77,11.99%,"2, 16, 40, 43, 53, 54, 71, 74, 77, 79"
+5,trojan/artemis → addisplay/kuguo,56,8.72%,"4001, 4018, 4068, 4079, 4091, 4094, 4157, 4182, 4282, 4311"
+6,benign/benign → adware/airpush,51,7.94%,"2004, 2023, 2054, 2056, 2067, 2079, 2094, 2099, 2133, 2170"
+7,trojan/artemis → adware/airpush,40,6.23%,"4003, 4011, 4013, 4016, 4036, 4090, 4096, 4116, 4166, 4186"
+8,trojan/artemis → downloader/jiagu,30,4.67%,"4000, 4017, 4022, 4072, 4075, 4102, 4119, 4128, 4149, 4218"
+9,addisplay/kuguo → adware/airpush,18,2.80%,"86, 95, 138, 313, 341, 343, 384, 512, 543, 655"
+10,adware/airpush → addisplay/kuguo,10,1.56%,"1148, 1493, 1531, 1739, 1742, 1916, 1921, 1967, 1992, 1994"
+11,benign/benign → trojan/artemis,10,1.56%,"2034, 2073, 2118, 2141, 2230, 2290, 2435, 2585, 2697, 2875"
+12,adware/airpush → trojan/artemis,5,0.78%,"1373, 1401, 1468, 1586, 1682"
+13,addisplay/kuguo → trojan/artemis,2,0.31%,"765, 855"
+14,benign/benign → downloader/jiagu,1,0.16%,2730
+15,downloader/jiagu → trojan/artemis,1,0.16%,3890

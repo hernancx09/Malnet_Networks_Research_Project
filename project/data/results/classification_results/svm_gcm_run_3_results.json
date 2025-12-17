@@ -1,0 +1,91 @@
+{
+  "accuracy": 0.836,
+  "macro_f1": 0.8361611476962676,
+  "weighted_f1": 0.8361611476962676,
+  "micro_f1": 0.836,
+  "macro_precision": 0.8409239784147019,
+  "weighted_precision": 0.8409239784147021,
+  "macro_recall": 0.836,
+  "weighted_recall": 0.836,
+  "per_class": {
+    "addisplay/kuguo": {
+      "f1": 0.7973856209150327,
+      "precision": 0.782051282051282,
+      "recall": 0.8133333333333334
+    },
+    "adware/airpush": {
+      "f1": 0.8786885245901639,
+      "precision": 0.864516129032258,
+      "recall": 0.8933333333333333
+    },
+    "benign/benign": {
+      "f1": 0.7009646302250804,
+      "precision": 0.6770186335403726,
+      "recall": 0.7266666666666667
+    },
+    "downloader/jiagu": {
+      "f1": 0.9771986970684039,
+      "precision": 0.9554140127388535,
+      "recall": 1.0
+    },
+    "trojan/artemis": {
+      "f1": 0.8265682656826568,
+      "precision": 0.9256198347107438,
+      "recall": 0.7466666666666667
+    }
+  },
+  "macro_auc": 0.9627222222222223,
+  "weighted_auc": 0.9627222222222221,
+  "per_class_auc": {
+    "addisplay/kuguo": 0.9633777777777779,
+    "adware/airpush": 0.9866444444444444,
+    "benign/benign": 0.9327,
+    "downloader/jiagu": 0.9958333333333333,
+    "trojan/artemis": 0.9350555555555555
+  },
+  "classification_report": {
+    "addisplay/kuguo": {
+      "precision": 0.782051282051282,
+      "recall": 0.8133333333333334,
+      "f1-score": 0.7973856209150327,
+      "support": 150.0
+    },
+    "adware/airpush": {
+      "precision": 0.864516129032258,
+      "recall": 0.8933333333333333,
+      "f1-score": 0.8786885245901639,
+      "support": 150.0
+    },
+    "benign/benign": {
+      "precision": 0.6770186335403726,
+      "recall": 0.7266666666666667,
+      "f1-score": 0.7009646302250804,
+      "support": 150.0
+    },
+    "downloader/jiagu": {
+      "precision": 0.9554140127388535,
+      "recall": 1.0,
+      "f1-score": 0.9771986970684039,
+      "support": 150.0
+    },
+    "trojan/artemis": {
+      "precision": 0.9256198347107438,
+      "recall": 0.7466666666666667,
+      "f1-score": 0.8265682656826568,
+      "support": 150.0
+    },
+    "accuracy": 0.836,
+    "macro avg": {
+      "precision": 0.8409239784147019,
+      "recall": 0.836,
+      "f1-score": 0.8361611476962676,
+      "support": 750.0
+    },
+    "weighted avg": {
+      "precision": 0.8409239784147021,
+      "recall": 0.836,
+      "f1-score": 0.8361611476962676,
+      "support": 750.0
+    }
+  }
+}

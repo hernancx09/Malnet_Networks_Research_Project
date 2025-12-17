@@ -1,366 +1,958 @@
 {
-  "accuracy": 0.78,
-  "macro_f1": 0.7771579672320785,
-  "weighted_f1": 0.7771579672320788,
-  "micro_f1": 0.78,
-  "macro_precision": 0.7757029109501589,
-  "weighted_precision": 0.7757029109501589,
-  "macro_recall": 0.78,
-  "weighted_recall": 0.78,
+  "accuracy": {
+    "mean": 0.764,
+    "std": 0.0,
+    "min": 0.764,
+    "max": 0.764
+  },
+  "macro_f1": {
+    "mean": 0.7598965879610183,
+    "std": 0.0,
+    "min": 0.7598965879610183,
+    "max": 0.7598965879610183
+  },
+  "weighted_f1": {
+    "mean": 0.7598965879610183,
+    "std": 0.0,
+    "min": 0.7598965879610183,
+    "max": 0.7598965879610183
+  },
+  "micro_f1": {
+    "mean": 0.764,
+    "std": 0.0,
+    "min": 0.764,
+    "max": 0.764
+  },
+  "macro_precision": {
+    "mean": 0.7605780326713599,
+    "std": 0.0,
+    "min": 0.7605780326713599,
+    "max": 0.7605780326713599
+  },
+  "weighted_precision": {
+    "mean": 0.7605780326713599,
+    "std": 0.0,
+    "min": 0.7605780326713599,
+    "max": 0.7605780326713599
+  },
+  "macro_recall": {
+    "mean": 0.764,
+    "std": 0.0,
+    "min": 0.764,
+    "max": 0.764
+  },
+  "weighted_recall": {
+    "mean": 0.764,
+    "std": 0.0,
+    "min": 0.764,
+    "max": 0.764
+  },
+  "macro_auc": {
+    "mean": 0.9367653333333333,
+    "std": 0.00011435789607659555,
+    "min": 0.9365844444444444,
+    "max": 0.9369288888888889
+  },
+  "weighted_auc": {
+    "mean": 0.9367653333333333,
+    "std": 0.00011435789607656603,
+    "min": 0.9365844444444446,
+    "max": 0.9369288888888889
+  },
   "per_class": {
+    "benign/benign": {
+      "f1": {
+        "mean": 0.5620437956204379,
+        "std": 0.0
+      },
+      "precision": {
+        "mean": 0.6209677419354839,
+        "std": 0.0
+      },
+      "recall": {
+        "mean": 0.5133333333333333,
+        "std": 0.0
+      }
+    },
     "addisplay/kuguo": {
-      "f1": 0.7121212121212122,
-      "precision": 0.7193877551020408,
-      "recall": 0.705
+      "f1": {
+        "mean": 0.6896551724137931,
+        "std": 0.0
+      },
+      "precision": {
+        "mean": 0.7142857142857143,
+        "std": 0.0
+      },
+      "recall": {
+        "mean": 0.6666666666666666,
+        "std": 0.0
+      }
     },
     "adware/airpush": {
-      "f1": 0.8894472361809045,
-      "precision": 0.8939393939393939,
-      "recall": 0.885
-    },
-    "benign/benign": {
-      "f1": 0.5947368421052631,
-      "precision": 0.6277777777777778,
-      "recall": 0.565
-    },
-    "downloader/jiagu": {
-      "f1": 0.966183574879227,
-      "precision": 0.9345794392523364,
-      "recall": 1.0
+      "f1": {
+        "mean": 0.8859060402684564,
+        "std": 0.0
+      },
+      "precision": {
+        "mean": 0.8918918918918919,
+        "std": 0.0
+      },
+      "recall": {
+        "mean": 0.8800000000000001,
+        "std": 1.1102230246251565e-16
+      }
     },
     "trojan/artemis": {
-      "f1": 0.7233009708737864,
-      "precision": 0.7028301886792453,
-      "recall": 0.745
+      "f1": {
+        "mean": 0.6972477064220184,
+        "std": 0.0
+      },
+      "precision": {
+        "mean": 0.6440677966101694,
+        "std": 0.0
+      },
+      "recall": {
+        "mean": 0.76,
+        "std": 0.0
+      }
+    },
+    "downloader/jiagu": {
+      "f1": {
+        "mean": 0.9646302250803858,
+        "std": 1.1102230246251565e-16
+      },
+      "precision": {
+        "mean": 0.9316770186335404,
+        "std": 0.0
+      },
+      "recall": {
+        "mean": 1.0,
+        "std": 0.0
+      }
     }
   },
-  "macro_auc": 0.9404575,
-  "weighted_auc": 0.9404575000000001,
   "per_class_auc": {
-    "addisplay/kuguo": 0.941371875,
-    "adware/airpush": 0.99029375,
-    "benign/benign": 0.8816343750000001,
-    "downloader/jiagu": 0.993153125,
-    "trojan/artemis": 0.895834375
-  },
-  "classification_report": {
+    "benign/benign": {
+      "mean": 0.8770922222222224,
+      "std": 0.00035821229652643503
+    },
     "addisplay/kuguo": {
-      "precision": 0.7193877551020408,
-      "recall": 0.705,
-      "f1-score": 0.7121212121212122,
-      "support": 200.0
+      "mean": 0.9373944444444444,
+      "std": 0.00021636731457138944
     },
     "adware/airpush": {
-      "precision": 0.8939393939393939,
-      "recall": 0.885,
-      "f1-score": 0.8894472361809045,
-      "support": 200.0
-    },
-    "benign/benign": {
-      "precision": 0.6277777777777778,
-      "recall": 0.565,
-      "f1-score": 0.5947368421052631,
-      "support": 200.0
-    },
-    "downloader/jiagu": {
-      "precision": 0.9345794392523364,
-      "recall": 1.0,
-      "f1-score": 0.966183574879227,
-      "support": 200.0
+      "mean": 0.9875911111111112,
+      "std": 3.3993463423997505e-05
     },
     "trojan/artemis": {
-      "precision": 0.7028301886792453,
-      "recall": 0.745,
-      "f1-score": 0.7233009708737864,
-      "support": 200.0
+      "mean": 0.886848888888889,
+      "std": 0.000185605449047305
     },
-    "accuracy": 0.78,
-    "macro avg": {
-      "precision": 0.7757029109501589,
-      "recall": 0.78,
-      "f1-score": 0.7771579672320785,
-      "support": 1000.0
-    },
-    "weighted avg": {
-      "precision": 0.7757029109501589,
-      "recall": 0.78,
-      "f1-score": 0.7771579672320788,
-      "support": 1000.0
+    "downloader/jiagu": {
+      "mean": 0.9949,
+      "std": 0.0
     }
   },
+  "n_runs": 5,
+  "individual_runs": [
+    {
+      "accuracy": 0.764,
+      "macro_f1": 0.7598965879610183,
+      "weighted_f1": 0.7598965879610183,
+      "micro_f1": 0.764,
+      "macro_precision": 0.7605780326713599,
+      "weighted_precision": 0.7605780326713599,
+      "macro_recall": 0.764,
+      "weighted_recall": 0.764,
+      "per_class": {
+        "addisplay/kuguo": {
+          "f1": 0.6896551724137931,
+          "precision": 0.7142857142857143,
+          "recall": 0.6666666666666666
+        },
+        "adware/airpush": {
+          "f1": 0.8859060402684564,
+          "precision": 0.8918918918918919,
+          "recall": 0.88
+        },
+        "benign/benign": {
+          "f1": 0.5620437956204379,
+          "precision": 0.6209677419354839,
+          "recall": 0.5133333333333333
+        },
+        "downloader/jiagu": {
+          "f1": 0.9646302250803859,
+          "precision": 0.9316770186335404,
+          "recall": 1.0
+        },
+        "trojan/artemis": {
+          "f1": 0.6972477064220184,
+          "precision": 0.6440677966101694,
+          "recall": 0.76
+        }
+      },
+      "macro_auc": 0.9365844444444444,
+      "weighted_auc": 0.9365844444444446,
+      "per_class_auc": {
+        "addisplay/kuguo": 0.9370499999999999,
+        "adware/airpush": 0.9876,
+        "benign/benign": 0.8767166666666667,
+        "downloader/jiagu": 0.9949,
+        "trojan/artemis": 0.8866555555555555
+      },
+      "classification_report": {
+        "addisplay/kuguo": {
+          "precision": 0.7142857142857143,
+          "recall": 0.6666666666666666,
+          "f1-score": 0.6896551724137931,
+          "support": 150.0
+        },
+        "adware/airpush": {
+          "precision": 0.8918918918918919,
+          "recall": 0.88,
+          "f1-score": 0.8859060402684564,
+          "support": 150.0
+        },
+        "benign/benign": {
+          "precision": 0.6209677419354839,
+          "recall": 0.5133333333333333,
+          "f1-score": 0.5620437956204379,
+          "support": 150.0
+        },
+        "downloader/jiagu": {
+          "precision": 0.9316770186335404,
+          "recall": 1.0,
+          "f1-score": 0.9646302250803859,
+          "support": 150.0
+        },
+        "trojan/artemis": {
+          "precision": 0.6440677966101694,
+          "recall": 0.76,
+          "f1-score": 0.6972477064220184,
+          "support": 150.0
+        },
+        "accuracy": 0.764,
+        "macro avg": {
+          "precision": 0.7605780326713599,
+          "recall": 0.764,
+          "f1-score": 0.7598965879610183,
+          "support": 750.0
+        },
+        "weighted avg": {
+          "precision": 0.7605780326713599,
+          "recall": 0.764,
+          "f1-score": 0.7598965879610183,
+          "support": 750.0
+        }
+      }
+    },
+    {
+      "accuracy": 0.764,
+      "macro_f1": 0.7598965879610183,
+      "weighted_f1": 0.7598965879610183,
+      "micro_f1": 0.764,
+      "macro_precision": 0.7605780326713599,
+      "weighted_precision": 0.7605780326713599,
+      "macro_recall": 0.764,
+      "weighted_recall": 0.764,
+      "per_class": {
+        "addisplay/kuguo": {
+          "f1": 0.6896551724137931,
+          "precision": 0.7142857142857143,
+          "recall": 0.6666666666666666
+        },
+        "adware/airpush": {
+          "f1": 0.8859060402684564,
+          "precision": 0.8918918918918919,
+          "recall": 0.88
+        },
+        "benign/benign": {
+          "f1": 0.5620437956204379,
+          "precision": 0.6209677419354839,
+          "recall": 0.5133333333333333
+        },
+        "downloader/jiagu": {
+          "f1": 0.9646302250803859,
+          "precision": 0.9316770186335404,
+          "recall": 1.0
+        },
+        "trojan/artemis": {
+          "f1": 0.6972477064220184,
+          "precision": 0.6440677966101694,
+          "recall": 0.76
+        }
+      },
+      "macro_auc": 0.936711111111111,
+      "weighted_auc": 0.936711111111111,
+      "per_class_auc": {
+        "addisplay/kuguo": 0.9372277777777777,
+        "adware/airpush": 0.9875666666666666,
+        "benign/benign": 0.8767499999999999,
+        "downloader/jiagu": 0.9949,
+        "trojan/artemis": 0.8871111111111111
+      },
+      "classification_report": {
+        "addisplay/kuguo": {
+          "precision": 0.7142857142857143,
+          "recall": 0.6666666666666666,
+          "f1-score": 0.6896551724137931,
+          "support": 150.0
+        },
+        "adware/airpush": {
+          "precision": 0.8918918918918919,
+          "recall": 0.88,
+          "f1-score": 0.8859060402684564,
+          "support": 150.0
+        },
+        "benign/benign": {
+          "precision": 0.6209677419354839,
+          "recall": 0.5133333333333333,
+          "f1-score": 0.5620437956204379,
+          "support": 150.0
+        },
+        "downloader/jiagu": {
+          "precision": 0.9316770186335404,
+          "recall": 1.0,
+          "f1-score": 0.9646302250803859,
+          "support": 150.0
+        },
+        "trojan/artemis": {
+          "precision": 0.6440677966101694,
+          "recall": 0.76,
+          "f1-score": 0.6972477064220184,
+          "support": 150.0
+        },
+        "accuracy": 0.764,
+        "macro avg": {
+          "precision": 0.7605780326713599,
+          "recall": 0.764,
+          "f1-score": 0.7598965879610183,
+          "support": 750.0
+        },
+        "weighted avg": {
+          "precision": 0.7605780326713599,
+          "recall": 0.764,
+          "f1-score": 0.7598965879610183,
+          "support": 750.0
+        }
+      }
+    },
+    {
+      "accuracy": 0.764,
+      "macro_f1": 0.7598965879610183,
+      "weighted_f1": 0.7598965879610183,
+      "micro_f1": 0.764,
+      "macro_precision": 0.7605780326713599,
+      "weighted_precision": 0.7605780326713599,
+      "macro_recall": 0.764,
+      "weighted_recall": 0.764,
+      "per_class": {
+        "addisplay/kuguo": {
+          "f1": 0.6896551724137931,
+          "precision": 0.7142857142857143,
+          "recall": 0.6666666666666666
+        },
+        "adware/airpush": {
+          "f1": 0.8859060402684564,
+          "precision": 0.8918918918918919,
+          "recall": 0.88
+        },
+        "benign/benign": {
+          "f1": 0.5620437956204379,
+          "precision": 0.6209677419354839,
+          "recall": 0.5133333333333333
+        },
+        "downloader/jiagu": {
+          "f1": 0.9646302250803859,
+          "precision": 0.9316770186335404,
+          "recall": 1.0
+        },
+        "trojan/artemis": {
+          "f1": 0.6972477064220184,
+          "precision": 0.6440677966101694,
+          "recall": 0.76
+        }
+      },
+      "macro_auc": 0.9368155555555555,
+      "weighted_auc": 0.9368155555555556,
+      "per_class_auc": {
+        "addisplay/kuguo": 0.9375611111111112,
+        "adware/airpush": 0.9876,
+        "benign/benign": 0.8773833333333333,
+        "downloader/jiagu": 0.9949,
+        "trojan/artemis": 0.8866333333333334
+      },
+      "classification_report": {
+        "addisplay/kuguo": {
+          "precision": 0.7142857142857143,
+          "recall": 0.6666666666666666,
+          "f1-score": 0.6896551724137931,
+          "support": 150.0
+        },
+        "adware/airpush": {
+          "precision": 0.8918918918918919,
+          "recall": 0.88,
+          "f1-score": 0.8859060402684564,
+          "support": 150.0
+        },
+        "benign/benign": {
+          "precision": 0.6209677419354839,
+          "recall": 0.5133333333333333,
+          "f1-score": 0.5620437956204379,
+          "support": 150.0
+        },
+        "downloader/jiagu": {
+          "precision": 0.9316770186335404,
+          "recall": 1.0,
+          "f1-score": 0.9646302250803859,
+          "support": 150.0
+        },
+        "trojan/artemis": {
+          "precision": 0.6440677966101694,
+          "recall": 0.76,
+          "f1-score": 0.6972477064220184,
+          "support": 150.0
+        },
+        "accuracy": 0.764,
+        "macro avg": {
+          "precision": 0.7605780326713599,
+          "recall": 0.764,
+          "f1-score": 0.7598965879610183,
+          "support": 750.0
+        },
+        "weighted avg": {
+          "precision": 0.7605780326713599,
+          "recall": 0.764,
+          "f1-score": 0.7598965879610183,
+          "support": 750.0
+        }
+      }
+    },
+    {
+      "accuracy": 0.764,
+      "macro_f1": 0.7598965879610183,
+      "weighted_f1": 0.7598965879610183,
+      "micro_f1": 0.764,
+      "macro_precision": 0.7605780326713599,
+      "weighted_precision": 0.7605780326713599,
+      "macro_recall": 0.764,
+      "weighted_recall": 0.764,
+      "per_class": {
+        "addisplay/kuguo": {
+          "f1": 0.6896551724137931,
+          "precision": 0.7142857142857143,
+          "recall": 0.6666666666666666
+        },
+        "adware/airpush": {
+          "f1": 0.8859060402684564,
+          "precision": 0.8918918918918919,
+          "recall": 0.88
+        },
+        "benign/benign": {
+          "f1": 0.5620437956204379,
+          "precision": 0.6209677419354839,
+          "recall": 0.5133333333333333
+        },
+        "downloader/jiagu": {
+          "f1": 0.9646302250803859,
+          "precision": 0.9316770186335404,
+          "recall": 1.0
+        },
+        "trojan/artemis": {
+          "f1": 0.6972477064220184,
+          "precision": 0.6440677966101694,
+          "recall": 0.76
+        }
+      },
+      "macro_auc": 0.9369288888888889,
+      "weighted_auc": 0.9369288888888889,
+      "per_class_auc": {
+        "addisplay/kuguo": 0.9375833333333333,
+        "adware/airpush": 0.9875444444444444,
+        "benign/benign": 0.8776277777777779,
+        "downloader/jiagu": 0.9949,
+        "trojan/artemis": 0.886988888888889
+      },
+      "classification_report": {
+        "addisplay/kuguo": {
+          "precision": 0.7142857142857143,
+          "recall": 0.6666666666666666,
+          "f1-score": 0.6896551724137931,
+          "support": 150.0
+        },
+        "adware/airpush": {
+          "precision": 0.8918918918918919,
+          "recall": 0.88,
+          "f1-score": 0.8859060402684564,
+          "support": 150.0
+        },
+        "benign/benign": {
+          "precision": 0.6209677419354839,
+          "recall": 0.5133333333333333,
+          "f1-score": 0.5620437956204379,
+          "support": 150.0
+        },
+        "downloader/jiagu": {
+          "precision": 0.9316770186335404,
+          "recall": 1.0,
+          "f1-score": 0.9646302250803859,
+          "support": 150.0
+        },
+        "trojan/artemis": {
+          "precision": 0.6440677966101694,
+          "recall": 0.76,
+          "f1-score": 0.6972477064220184,
+          "support": 150.0
+        },
+        "accuracy": 0.764,
+        "macro avg": {
+          "precision": 0.7605780326713599,
+          "recall": 0.764,
+          "f1-score": 0.7598965879610183,
+          "support": 750.0
+        },
+        "weighted avg": {
+          "precision": 0.7605780326713599,
+          "recall": 0.764,
+          "f1-score": 0.7598965879610183,
+          "support": 750.0
+        }
+      }
+    },
+    {
+      "accuracy": 0.764,
+      "macro_f1": 0.7598965879610183,
+      "weighted_f1": 0.7598965879610183,
+      "micro_f1": 0.764,
+      "macro_precision": 0.7605780326713599,
+      "weighted_precision": 0.7605780326713599,
+      "macro_recall": 0.764,
+      "weighted_recall": 0.764,
+      "per_class": {
+        "addisplay/kuguo": {
+          "f1": 0.6896551724137931,
+          "precision": 0.7142857142857143,
+          "recall": 0.6666666666666666
+        },
+        "adware/airpush": {
+          "f1": 0.8859060402684564,
+          "precision": 0.8918918918918919,
+          "recall": 0.88
+        },
+        "benign/benign": {
+          "f1": 0.5620437956204379,
+          "precision": 0.6209677419354839,
+          "recall": 0.5133333333333333
+        },
+        "downloader/jiagu": {
+          "f1": 0.9646302250803859,
+          "precision": 0.9316770186335404,
+          "recall": 1.0
+        },
+        "trojan/artemis": {
+          "f1": 0.6972477064220184,
+          "precision": 0.6440677966101694,
+          "recall": 0.76
+        }
+      },
+      "macro_auc": 0.9367866666666668,
+      "weighted_auc": 0.9367866666666667,
+      "per_class_auc": {
+        "addisplay/kuguo": 0.93755,
+        "adware/airpush": 0.9876444444444445,
+        "benign/benign": 0.8769833333333333,
+        "downloader/jiagu": 0.9949,
+        "trojan/artemis": 0.8868555555555555
+      },
+      "classification_report": {
+        "addisplay/kuguo": {
+          "precision": 0.7142857142857143,
+          "recall": 0.6666666666666666,
+          "f1-score": 0.6896551724137931,
+          "support": 150.0
+        },
+        "adware/airpush": {
+          "precision": 0.8918918918918919,
+          "recall": 0.88,
+          "f1-score": 0.8859060402684564,
+          "support": 150.0
+        },
+        "benign/benign": {
+          "precision": 0.6209677419354839,
+          "recall": 0.5133333333333333,
+          "f1-score": 0.5620437956204379,
+          "support": 150.0
+        },
+        "downloader/jiagu": {
+          "precision": 0.9316770186335404,
+          "recall": 1.0,
+          "f1-score": 0.9646302250803859,
+          "support": 150.0
+        },
+        "trojan/artemis": {
+          "precision": 0.6440677966101694,
+          "recall": 0.76,
+          "f1-score": 0.6972477064220184,
+          "support": 150.0
+        },
+        "accuracy": 0.764,
+        "macro avg": {
+          "precision": 0.7605780326713599,
+          "recall": 0.764,
+          "f1-score": 0.7598965879610183,
+          "support": 750.0
+        },
+        "weighted avg": {
+          "precision": 0.7605780326713599,
+          "recall": 0.764,
+          "f1-score": 0.7598965879610183,
+          "support": 750.0
+        }
+      }
+    }
+  ],
   "roc_curves": {
     "per_class_auc": {
-      "addisplay/kuguo": 0.941371875,
-      "adware/airpush": 0.99029375,
-      "benign/benign": 0.8816343750000001,
-      "downloader/jiagu": 0.993153125,
-      "trojan/artemis": 0.895834375
+      "addisplay/kuguo": 0.9373944444444444,
+      "adware/airpush": 0.9875911111111112,
+      "benign/benign": 0.8770922222222224,
+      "downloader/jiagu": 0.9949,
+      "trojan/artemis": 0.886848888888889
     },
-    "macro_auc": 0.9404575
+    "per_class_auc_std": {
+      "addisplay/kuguo": 0.00021636731457138944,
+      "adware/airpush": 3.3993463423997505e-05,
+      "benign/benign": 0.00035821229652643503,
+      "downloader/jiagu": 0.0,
+      "trojan/artemis": 0.000185605449047305
+    },
+    "macro_auc": 0.9367653333333333,
+    "macro_auc_std": 0.00011435789607659555
   },
   "pr_curves": {
     "per_class_aupr": {
-      "addisplay/kuguo": 0.7675118545456336,
-      "adware/airpush": 0.9635774494037044,
-      "benign/benign": 0.6508519403839793,
-      "downloader/jiagu": 0.9489935900847719,
-      "trojan/artemis": 0.7749349092776383
+      "addisplay/kuguo": 0.7843199068363529,
+      "adware/airpush": 0.9601522846225148,
+      "benign/benign": 0.6069616618922603,
+      "downloader/jiagu": 0.9600832519907765,
+      "trojan/artemis": 0.7475417389106206
     },
-    "macro_aupr": 0.8211739487391455
+    "per_class_aupr_std": {
+      "addisplay/kuguo": 0.00047538180246547355,
+      "adware/airpush": 5.263650179290449e-05,
+      "benign/benign": 0.000470784026609668,
+      "downloader/jiagu": 0.0,
+      "trojan/artemis": 0.00021070629823591536
+    },
+    "macro_aupr": 0.8118117688505049,
+    "macro_aupr_std": 0.0001535674418526045
   },
-  "macro_aupr": 0.8211739487391455,
+  "macro_aupr": {
+    "mean": 0.8118117688505049,
+    "std": 0.0001535674418526045
+  },
   "misclassifications": {
-    "total_samples": 1000,
-    "misclassified_samples": 220,
-    "accuracy": 0.78,
-    "misclassification_rate": 0.22,
+    "total_samples": 750,
+    "misclassified_samples": 177,
+    "accuracy": 0.764,
+    "misclassification_rate": 0.236,
     "patterns": [
       {
-        "pattern": "benign/benign \u2192 addisplay/kuguo",
-        "count": 41,
-        "percentage": 18.636363636363637,
+        "pattern": "benign/benign \u2192 trojan/artemis",
+        "count": 35,
+        "percentage": 19.774011299435028,
         "sample_indices": [
-          24,
-          28,
-          50,
-          58,
-          129,
-          160,
-          167,
-          187,
-          215,
-          248
+          3,
+          11,
+          35,
+          41,
+          61,
+          98,
+          106,
+          146,
+          174,
+          180
         ]
       },
       {
-        "pattern": "benign/benign \u2192 trojan/artemis",
-        "count": 36,
-        "percentage": 16.363636363636363,
+        "pattern": "benign/benign \u2192 addisplay/kuguo",
+        "count": 31,
+        "percentage": 17.51412429378531,
         "sample_indices": [
-          34,
-          38,
+          4,
+          53,
           59,
-          95,
-          150,
-          159,
-          161,
-          181,
-          236,
-          265
+          89,
+          131,
+          132,
+          157,
+          255,
+          270,
+          283
         ]
       },
       {
         "pattern": "addisplay/kuguo \u2192 benign/benign",
-        "count": 31,
-        "percentage": 14.09090909090909,
+        "count": 23,
+        "percentage": 12.994350282485875,
         "sample_indices": [
-          32,
-          85,
-          111,
-          226,
-          259,
-          313,
-          324,
-          327,
-          330,
-          342
+          0,
+          31,
+          57,
+          60,
+          123,
+          158,
+          248,
+          273,
+          287,
+          366
         ]
       },
       {
         "pattern": "addisplay/kuguo \u2192 trojan/artemis",
-        "count": 24,
-        "percentage": 10.909090909090908,
+        "count": 22,
+        "percentage": 12.429378531073446,
         "sample_indices": [
-          36,
-          41,
-          87,
-          100,
-          142,
-          158,
-          163,
-          166,
-          197,
-          302
-        ]
-      },
-      {
-        "pattern": "adware/airpush \u2192 benign/benign",
-        "count": 20,
-        "percentage": 9.090909090909092,
-        "sample_indices": [
-          65,
-          77,
-          93,
-          105,
-          246,
-          276,
-          380,
-          404,
-          412,
-          416
+          52,
+          85,
+          86,
+          134,
+          149,
+          170,
+          257,
+          336,
+          341,
+          369
         ]
       },
       {
         "pattern": "trojan/artemis \u2192 benign/benign",
-        "count": 16,
-        "percentage": 7.2727272727272725,
+        "count": 13,
+        "percentage": 7.344632768361582,
         "sample_indices": [
-          90,
-          101,
-          260,
-          319,
-          386,
-          427,
-          428,
-          446,
-          477,
-          618
+          141,
+          156,
+          213,
+          235,
+          237,
+          416,
+          422,
+          535,
+          548,
+          582
         ]
       },
       {
-        "pattern": "trojan/artemis \u2192 addisplay/kuguo",
-        "count": 14,
-        "percentage": 6.363636363636363,
+        "pattern": "adware/airpush \u2192 benign/benign",
+        "count": 11,
+        "percentage": 6.214689265536723,
         "sample_indices": [
-          168,
-          205,
-          251,
-          316,
-          417,
-          566,
-          582,
-          584,
-          592,
-          615
+          5,
+          66,
+          94,
+          160,
+          204,
+          224,
+          408,
+          418,
+          623,
+          673
         ]
       },
       {
         "pattern": "trojan/artemis \u2192 downloader/jiagu",
-        "count": 12,
-        "percentage": 5.454545454545454,
+        "count": 10,
+        "percentage": 5.649717514124294,
         "sample_indices": [
-          311,
-          494,
-          495,
-          552,
-          627,
-          777,
-          789,
-          801,
-          896,
-          901
+          21,
+          147,
+          306,
+          312,
+          491,
+          558,
+          571,
+          605,
+          731,
+          738
         ]
       },
       {
-        "pattern": "trojan/artemis \u2192 adware/airpush",
-        "count": 9,
-        "percentage": 4.090909090909091,
+        "pattern": "trojan/artemis \u2192 addisplay/kuguo",
+        "count": 8,
+        "percentage": 4.519774011299435,
         "sample_indices": [
-          8,
-          334,
-          373,
-          469,
-          487,
-          710,
-          714,
-          956,
-          998
+          32,
+          68,
+          115,
+          155,
+          196,
+          477,
+          720,
+          736
         ]
       },
       {
         "pattern": "benign/benign \u2192 adware/airpush",
-        "count": 9,
-        "percentage": 4.090909090909091,
+        "count": 6,
+        "percentage": 3.389830508474576,
         "sample_indices": [
-          86,
-          192,
-          204,
-          300,
-          379,
-          529,
-          760,
-          790,
-          990
-        ]
-      },
-      {
-        "pattern": "addisplay/kuguo \u2192 adware/airpush",
-        "count": 3,
-        "percentage": 1.3636363636363635,
-        "sample_indices": [
-          126,
-          456,
-          604
+          20,
+          234,
+          251,
+          509,
+          577,
+          727
         ]
       },
       {
         "pattern": "adware/airpush \u2192 trojan/artemis",
-        "count": 3,
-        "percentage": 1.3636363636363635,
+        "count": 6,
+        "percentage": 3.389830508474576,
         "sample_indices": [
-          376,
-          747,
-          799
+          392,
+          432,
+          433,
+          572,
+          670,
+          698
+        ]
+      },
+      {
+        "pattern": "trojan/artemis \u2192 adware/airpush",
+        "count": 5,
+        "percentage": 2.824858757062147,
+        "sample_indices": [
+          16,
+          216,
+          305,
+          542,
+          743
+        ]
+      },
+      {
+        "pattern": "addisplay/kuguo \u2192 adware/airpush",
+        "count": 5,
+        "percentage": 2.824858757062147,
+        "sample_indices": [
+          214,
+          276,
+          285,
+          364,
+          562
+        ]
+      },
+      {
+        "pattern": "adware/airpush \u2192 addisplay/kuguo",
+        "count": 1,
+        "percentage": 0.5649717514124294,
+        "sample_indices": [
+          411
         ]
       },
       {
         "pattern": "benign/benign \u2192 downloader/jiagu",
         "count": 1,
-        "percentage": 0.45454545454545453,
+        "percentage": 0.5649717514124294,
         "sample_indices": [
-          83
-        ]
-      },
-      {
-        "pattern": "addisplay/kuguo \u2192 downloader/jiagu",
-        "count": 1,
-        "percentage": 0.45454545454545453,
-        "sample_indices": [
-          269
+          454
         ]
       }
     ],
     "top_patterns": [
       {
-        "pattern": "benign/benign \u2192 addisplay/kuguo",
-        "count": 41
-      },
-      {
         "pattern": "benign/benign \u2192 trojan/artemis",
-        "count": 36
+        "count": 35
       },
       {
-        "pattern": "addisplay/kuguo \u2192 benign/benign",
+        "pattern": "benign/benign \u2192 addisplay/kuguo",
         "count": 31
       },
       {
-        "pattern": "addisplay/kuguo \u2192 trojan/artemis",
-        "count": 24
+        "pattern": "addisplay/kuguo \u2192 benign/benign",
+        "count": 23
       },
       {
-        "pattern": "adware/airpush \u2192 benign/benign",
-        "count": 20
+        "pattern": "addisplay/kuguo \u2192 trojan/artemis",
+        "count": 22
       },
       {
         "pattern": "trojan/artemis \u2192 benign/benign",
-        "count": 16
+        "count": 13
       },
       {
-        "pattern": "trojan/artemis \u2192 addisplay/kuguo",
-        "count": 14
+        "pattern": "adware/airpush \u2192 benign/benign",
+        "count": 11
       },
       {
         "pattern": "trojan/artemis \u2192 downloader/jiagu",
-        "count": 12
+        "count": 10
       },
       {
-        "pattern": "trojan/artemis \u2192 adware/airpush",
-        "count": 9
+        "pattern": "trojan/artemis \u2192 addisplay/kuguo",
+        "count": 8
       },
       {
         "pattern": "benign/benign \u2192 adware/airpush",
-        "count": 9
+        "count": 6
+      },
+      {
+        "pattern": "adware/airpush \u2192 trojan/artemis",
+        "count": 6
       }
     ]
+  },
+  "timing": {
+    "train_test_split": 0.004182100296020508,
+    "training": {
+      "total": 13.175376653671265,
+      "per_run": [
+        2.6629960536956787,
+        2.6565399169921875,
+        2.591566801071167,
+        2.6400532722473145,
+        2.624220609664917
+      ],
+      "average": 2.635075330734253
+    },
+    "evaluation": {
+      "total": 2.4043173789978027,
+      "per_run": [
+        0.4842414855957031,
+        0.4843719005584717,
+        0.48397207260131836,
+        0.45960545539855957,
+        0.49212646484375
+      ],
+      "average": 0.48086347579956057
+    },
+    "metrics_computation": {
+      "total": 0.0647742748260498,
+      "per_run": [
+        0.01298213005065918,
+        0.012772560119628906,
+        0.012855291366577148,
+        0.012908458709716797,
+        0.013255834579467773
+      ],
+      "average": 0.01295485496520996
+    },
+    "runs": {
+      "total": 15.658859968185425,
+      "per_run": [
+        3.162961483001709,
+        3.1571946144104004,
+        3.091205596923828,
+        3.115161180496216,
+        3.1323370933532715
+      ],
+      "average": 3.131771993637085
+    },
+    "plotting": {
+      "confusion_matrix": 0.6425590515136719,
+      "roc_curves": 0.7961926460266113,
+      "pr_curves": 0.7387967109680176,
+      "misclassifications": 0.6031205654144287,
+      "total": 2.7806689739227295
+    }
   }
 }

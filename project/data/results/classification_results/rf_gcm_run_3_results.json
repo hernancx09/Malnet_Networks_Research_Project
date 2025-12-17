@@ -1,0 +1,91 @@
+{
+  "accuracy": 0.88,
+  "macro_f1": 0.8806928711123222,
+  "weighted_f1": 0.8806928711123221,
+  "micro_f1": 0.88,
+  "macro_precision": 0.8852543953166894,
+  "weighted_precision": 0.8852543953166895,
+  "macro_recall": 0.8800000000000001,
+  "weighted_recall": 0.88,
+  "per_class": {
+    "addisplay/kuguo": {
+      "f1": 0.881578947368421,
+      "precision": 0.8701298701298701,
+      "recall": 0.8933333333333333
+    },
+    "adware/airpush": {
+      "f1": 0.9054054054054054,
+      "precision": 0.9178082191780822,
+      "recall": 0.8933333333333333
+    },
+    "benign/benign": {
+      "f1": 0.7697160883280757,
+      "precision": 0.7305389221556886,
+      "recall": 0.8133333333333334
+    },
+    "downloader/jiagu": {
+      "f1": 0.9771986970684039,
+      "precision": 0.9554140127388535,
+      "recall": 1.0
+    },
+    "trojan/artemis": {
+      "f1": 0.8695652173913043,
+      "precision": 0.9523809523809523,
+      "recall": 0.8
+    }
+  },
+  "macro_auc": 0.9766555555555556,
+  "weighted_auc": 0.9766555555555556,
+  "per_class_auc": {
+    "addisplay/kuguo": 0.9806777777777778,
+    "adware/airpush": 0.9928,
+    "benign/benign": 0.9579333333333333,
+    "downloader/jiagu": 0.9975666666666667,
+    "trojan/artemis": 0.9543
+  },
+  "classification_report": {
+    "addisplay/kuguo": {
+      "precision": 0.8701298701298701,
+      "recall": 0.8933333333333333,
+      "f1-score": 0.881578947368421,
+      "support": 150.0
+    },
+    "adware/airpush": {
+      "precision": 0.9178082191780822,
+      "recall": 0.8933333333333333,
+      "f1-score": 0.9054054054054054,
+      "support": 150.0
+    },
+    "benign/benign": {
+      "precision": 0.7305389221556886,
+      "recall": 0.8133333333333334,
+      "f1-score": 0.7697160883280757,
+      "support": 150.0
+    },
+    "downloader/jiagu": {
+      "precision": 0.9554140127388535,
+      "recall": 1.0,
+      "f1-score": 0.9771986970684039,
+      "support": 150.0
+    },
+    "trojan/artemis": {
+      "precision": 0.9523809523809523,
+      "recall": 0.8,
+      "f1-score": 0.8695652173913043,
+      "support": 150.0
+    },
+    "accuracy": 0.88,
+    "macro avg": {
+      "precision": 0.8852543953166894,
+      "recall": 0.8800000000000001,
+      "f1-score": 0.8806928711123222,
+      "support": 750.0
+    },
+    "weighted avg": {
+      "precision": 0.8852543953166895,
+      "recall": 0.88,
+      "f1-score": 0.8806928711123221,
+      "support": 750.0
+    }
+  }
+}

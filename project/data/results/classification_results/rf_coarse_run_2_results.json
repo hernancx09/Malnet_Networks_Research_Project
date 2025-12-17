@@ -1,0 +1,91 @@
+{
+  "accuracy": 0.8853333333333333,
+  "macro_f1": 0.885061778525914,
+  "weighted_f1": 0.8850617785259143,
+  "micro_f1": 0.8853333333333333,
+  "macro_precision": 0.8864565616075332,
+  "weighted_precision": 0.8864565616075333,
+  "macro_recall": 0.8853333333333333,
+  "weighted_recall": 0.8853333333333333,
+  "per_class": {
+    "addisplay/kuguo": {
+      "f1": 0.8639455782312925,
+      "precision": 0.8819444444444444,
+      "recall": 0.8466666666666667
+    },
+    "adware/airpush": {
+      "f1": 0.9250814332247557,
+      "precision": 0.9044585987261147,
+      "recall": 0.9466666666666667
+    },
+    "benign/benign": {
+      "f1": 0.7857142857142857,
+      "precision": 0.7658227848101266,
+      "recall": 0.8066666666666666
+    },
+    "downloader/jiagu": {
+      "f1": 0.9803921568627451,
+      "precision": 0.9615384615384616,
+      "recall": 1.0
+    },
+    "trojan/artemis": {
+      "f1": 0.8701754385964913,
+      "precision": 0.9185185185185185,
+      "recall": 0.8266666666666667
+    }
+  },
+  "macro_auc": 0.9795622222222222,
+  "weighted_auc": 0.9795622222222221,
+  "per_class_auc": {
+    "addisplay/kuguo": 0.9827,
+    "adware/airpush": 0.9967666666666668,
+    "benign/benign": 0.9664333333333334,
+    "downloader/jiagu": 0.9970888888888889,
+    "trojan/artemis": 0.9548222222222222
+  },
+  "classification_report": {
+    "addisplay/kuguo": {
+      "precision": 0.8819444444444444,
+      "recall": 0.8466666666666667,
+      "f1-score": 0.8639455782312925,
+      "support": 150.0
+    },
+    "adware/airpush": {
+      "precision": 0.9044585987261147,
+      "recall": 0.9466666666666667,
+      "f1-score": 0.9250814332247557,
+      "support": 150.0
+    },
+    "benign/benign": {
+      "precision": 0.7658227848101266,
+      "recall": 0.8066666666666666,
+      "f1-score": 0.7857142857142857,
+      "support": 150.0
+    },
+    "downloader/jiagu": {
+      "precision": 0.9615384615384616,
+      "recall": 1.0,
+      "f1-score": 0.9803921568627451,
+      "support": 150.0
+    },
+    "trojan/artemis": {
+      "precision": 0.9185185185185185,
+      "recall": 0.8266666666666667,
+      "f1-score": 0.8701754385964913,
+      "support": 150.0
+    },
+    "accuracy": 0.8853333333333333,
+    "macro avg": {
+      "precision": 0.8864565616075332,
+      "recall": 0.8853333333333333,
+      "f1-score": 0.885061778525914,
+      "support": 750.0
+    },
+    "weighted avg": {
+      "precision": 0.8864565616075333,
+      "recall": 0.8853333333333333,
+      "f1-score": 0.8850617785259143,
+      "support": 750.0
+    }
+  }
+}

@@ -7,6 +7,7 @@ Production pipeline using UCL Directed Graphlet Counter
 import os
 import json
 import pickle
+import time
 import numpy as np
 from pathlib import Path
 from typing import List, Dict, Optional
@@ -62,7 +63,8 @@ class DGDVProcessor:
                       limit: Optional[int] = None,
                       save_individual: bool = False,
                       batch_size: int = 100,
-                      resume: bool = True) -> Dict:
+                      resume: bool = True,
+                      combine_files: bool = False) -> Dict:
         """
         Compute DGDVs for all graphs with incremental saving to prevent memory exhaustion
         
@@ -75,6 +77,7 @@ class DGDVProcessor:
             save_individual: Save individual GDV files (default: False)
             batch_size: Number of graphs to process before saving checkpoint (default: 100)
             resume: If True, check for existing checkpoint and resume from there
+            combine_files: If True, combine individual files into single combined file (default: False, uses lots of memory)
         
         Returns:
             Dictionary with processing results and metadata
@@ -141,15 +144,22 @@ class DGDVProcessor:
                 start_idx = 0
         
         # Process each graph - save immediately to disk, don't keep in memory
+        computation_times = []
+        io_times = []
+        total_start = time.time()
+        
         for i in range(start_idx, len(graphs)):
             graph = graphs[i]
             try:
                 # Compute DGDV using UCL counter
+                comp_start = time.time()
                 dgdv = compute_directed_gdvs_with_ucl(
                     graph,
                     min_graphlet_size=min_graphlet_size,
                     max_graphlet_size=max_graphlet_size
                 )
+                comp_time = time.time() - comp_start
+                computation_times.append(comp_time)
                 
                 if dgdv is None:
                     failed.append(i)
@@ -161,9 +171,12 @@ class DGDVProcessor:
                     continue
                 
                 # Save DGDV immediately to individual file (don't keep in memory)
+                io_start = time.time()
                 individual_file = individual_dir / f"graph_{i:05d}.pkl"
                 with open(individual_file, 'wb') as f:
                     pickle.dump(dgdv, f)
+                io_time = time.time() - io_start
+                io_times.append(io_time)
                 
                 # Store shape from first successful graph
                 if dgdv_shape is None:
@@ -179,7 +192,9 @@ class DGDVProcessor:
                     self._save_metadata_checkpoint(successful, failed, metadata_file,
                                                   min_graphlet_size, max_graphlet_size,
                                                   len(graphs), labels, dgdv_shape)
+                    avg_comp = np.mean(computation_times[-batch_size:]) if computation_times else 0
                     print(f"\n  Checkpoint saved at graph {i+1}/{len(graphs)}")
+                    print(f"  Average computation time (last {min(batch_size, len(computation_times))} graphs): {avg_comp:.2f}s/graph")
                 
             except MemoryError as e:
                 print(f"\n[ERROR] Out of memory at graph {i}: {e}")
@@ -199,9 +214,12 @@ class DGDVProcessor:
                 continue
         
         # Now combine individual files into final output (in batches to avoid OOM)
-        # Only combine if we have new graphs to process
-        if len(successful) > 0:
+        # Only combine if explicitly requested (uses lots of memory, not needed for classification)
+        combine_time = 0
+        if len(successful) > 0 and combine_files:
             print(f"\nCombining individual DGDV files into final output...")
+            print(f"  WARNING: This step uses significant memory. Individual files are sufficient for classification.")
+            combine_start = time.time()
             # Check if we need to combine (if output file doesn't exist or is incomplete)
             need_combine = not dgdvs_file.exists()
             if not need_combine:
@@ -216,27 +234,58 @@ class DGDVProcessor:
                 self._combine_individual_files(individual_dir, dgdvs_file, successful, batch_size=100)
             else:
                 print(f"  Output file already contains all {len(successful)} DGDVs, skipping combine")
+            combine_time = time.time() - combine_start
+            print(f"  Combining files time: {combine_time:.2f} seconds")
+        elif len(successful) > 0:
+            print(f"\nSkipping file combination (individual files are sufficient for classification)")
+            print(f"  Individual DGDV files saved to: {individual_dir}")
+            print(f"  To combine files later, set combine_files=True (uses significant memory)")
         
         # Compute and save GCMs incrementally from individual files
+        individual_gcm_dir = self.output_dir / "gcms" / "individual"
+        individual_gcm_dir.mkdir(parents=True, exist_ok=True)
+        
         print(f"\nComputing GCMs from saved DGDVs...")
-        all_gcms = self._compute_gcms_from_files(individual_dir, gcms_file, successful, batch_size=50)
+        gcm_start = time.time()
+        all_gcms = self._compute_gcms_from_files(individual_dir, gcms_file, successful, batch_size=50, save_combined=combine_files)
+        gcm_time = time.time() - gcm_start
+        print(f"  GCM computation time: {gcm_time:.2f} seconds")
         
         # Final save
+        total_time = time.time() - total_start
+        total_comp_time = sum(computation_times) if computation_times else 0
+        total_io_time = sum(io_times) if io_times else 0
+        
         print(f"\nFinalizing results...")
         print(f"  Successful: {len(successful)}")
         print(f"  Failed: {len(failed)}")
+        print(f"\nTiming Summary:")
+        if computation_times:
+            print(f"  Total DGDV computation: {total_comp_time:.2f} seconds")
+            print(f"  Average: {np.mean(computation_times):.2f} seconds/graph")
+        if io_times:
+            print(f"  File I/O: {total_io_time:.2f} seconds")
+        print(f"  Combining files: {combine_time:.2f} seconds")
+        print(f"  GCM computation: {gcm_time:.2f} seconds")
+        print(f"  Total processing time: {total_time:.2f} seconds")
         
         # Save final metadata
         self._save_metadata_checkpoint(successful, failed, metadata_file,
                                       min_graphlet_size, max_graphlet_size,
                                       len(graphs), labels, dgdv_shape)
         
-        if all_gcms:
+        if combine_files and all_gcms:
             with open(gcms_file, 'wb') as f:
                 pickle.dump(all_gcms, f)
-            print(f"  Saved GCMs: {gcms_file}")
+            print(f"  Saved combined GCMs: {gcms_file}")
+        elif not combine_files:
+            print(f"  Individual GCM files saved to: {individual_gcm_dir}")
+            print(f"  (Combined file skipped to save memory)")
         
-        print(f"  Saved DGDVs: {dgdvs_file}")
+        if combine_files:
+            print(f"  Saved combined DGDVs: {dgdvs_file}")
+        else:
+            print(f"  Individual DGDV files saved to: {individual_dir}")
         print(f"  Saved metadata: {metadata_file}")
         
         # Return metadata only (don't load all DGDVs into memory)
@@ -305,13 +354,19 @@ class DGDVProcessor:
             pickle.dump(all_dgdvs, f)
     
     def _compute_gcms_from_files(self, individual_dir: Path, gcms_file: Path,
-                                successful_indices: List[int], batch_size: int = 50) -> List[np.ndarray]:
+                                successful_indices: List[int], batch_size: int = 50, save_combined: bool = False) -> List[np.ndarray]:
         """Compute GCMs from individual DGDV files, loading them in batches"""
-        # Check for existing GCMs
+        # Individual GCM directory (mirrors DGDV structure)
+        # individual_dir is typically: data/gdvs/gdvs/individual
+        # So GCMs go to: data/gdvs/gcms/individual
+        individual_gcm_dir = self.output_dir / "gcms" / "individual"
+        individual_gcm_dir.mkdir(parents=True, exist_ok=True)
+        
+        # Check for existing GCMs (only if saving combined)
         existing_gcms = []
         start_idx = 0
         
-        if gcms_file.exists():
+        if save_combined and gcms_file.exists():
             try:
                 with open(gcms_file, 'rb') as f:
                     existing_gcms = pickle.load(f)
@@ -322,7 +377,7 @@ class DGDVProcessor:
                 existing_gcms = []
                 start_idx = 0
         
-        gcms = existing_gcms.copy()
+        gcms = existing_gcms.copy() if save_combined else []
         
         # Process remaining graphs in batches
         for batch_start in range(start_idx, len(successful_indices), batch_size):
@@ -339,22 +394,33 @@ class DGDVProcessor:
             
             # Compute GCMs for this batch using Spearman correlation
             from compute_gcms import compute_gcm_from_dgdv
-            for dgdv in batch_dgdvs:
+            for i, dgdv in enumerate(batch_dgdvs):
                 # Use Spearman correlation implementation
                 gcm = compute_gcm_from_dgdv(dgdv, use_gpu=False)
-                gcms.append(gcm)
+                
+                # Save individual GCM file
+                gcm_idx = batch_indices[i]
+                individual_gcm_file = individual_gcm_dir / f"graph_{gcm_idx:05d}.pkl"
+                with open(individual_gcm_file, 'wb') as f:
+                    pickle.dump(gcm, f)
+                
+                # Add to combined list only if requested
+                if save_combined:
+                    gcms.append(gcm)
             
             # Clear batch from memory
             del batch_dgdvs
             
-            # Save checkpoint periodically
-            if batch_end % (batch_size * 2) == 0 or batch_end == len(successful_indices):
+            # Save combined checkpoint periodically (only if saving combined)
+            if save_combined and (batch_end % (batch_size * 2) == 0 or batch_end == len(successful_indices)):
                 with open(gcms_file, 'wb') as f:
                     pickle.dump(gcms, f)
                 if batch_end % (batch_size * 5) == 0:
                     print(f"    GCM checkpoint: {batch_end}/{len(successful_indices)}")
+            elif batch_end % (batch_size * 5) == 0:
+                print(f"    Processed {batch_end}/{len(successful_indices)} GCMs (saved as individual files)")
         
-        return gcms
+        return gcms if save_combined else []
     
     def _compute_gcms(self, dgdvs: List[np.ndarray]) -> List[np.ndarray]:
         """

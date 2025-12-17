@@ -1,0 +1,91 @@
+{
+  "accuracy": 0.8693333333333333,
+  "macro_f1": 0.8699803530531828,
+  "weighted_f1": 0.8699803530531827,
+  "micro_f1": 0.8693333333333333,
+  "macro_precision": 0.8731639146713643,
+  "weighted_precision": 0.8731639146713643,
+  "macro_recall": 0.8693333333333333,
+  "weighted_recall": 0.8693333333333333,
+  "per_class": {
+    "addisplay/kuguo": {
+      "f1": 0.8552631578947368,
+      "precision": 0.8441558441558441,
+      "recall": 0.8666666666666667
+    },
+    "adware/airpush": {
+      "f1": 0.9023569023569024,
+      "precision": 0.9115646258503401,
+      "recall": 0.8933333333333333
+    },
+    "benign/benign": {
+      "f1": 0.7476038338658147,
+      "precision": 0.7177914110429447,
+      "recall": 0.78
+    },
+    "downloader/jiagu": {
+      "f1": 0.9803921568627451,
+      "precision": 0.9615384615384616,
+      "recall": 1.0
+    },
+    "trojan/artemis": {
+      "f1": 0.8642857142857143,
+      "precision": 0.9307692307692308,
+      "recall": 0.8066666666666666
+    }
+  },
+  "macro_auc": 0.9760822222222222,
+  "weighted_auc": 0.9760822222222223,
+  "per_class_auc": {
+    "addisplay/kuguo": 0.9811111111111112,
+    "adware/airpush": 0.9927666666666667,
+    "benign/benign": 0.9574666666666667,
+    "downloader/jiagu": 0.9975666666666666,
+    "trojan/artemis": 0.9515
+  },
+  "classification_report": {
+    "addisplay/kuguo": {
+      "precision": 0.8441558441558441,
+      "recall": 0.8666666666666667,
+      "f1-score": 0.8552631578947368,
+      "support": 150.0
+    },
+    "adware/airpush": {
+      "precision": 0.9115646258503401,
+      "recall": 0.8933333333333333,
+      "f1-score": 0.9023569023569024,
+      "support": 150.0
+    },
+    "benign/benign": {
+      "precision": 0.7177914110429447,
+      "recall": 0.78,
+      "f1-score": 0.7476038338658147,
+      "support": 150.0
+    },
+    "downloader/jiagu": {
+      "precision": 0.9615384615384616,
+      "recall": 1.0,
+      "f1-score": 0.9803921568627451,
+      "support": 150.0
+    },
+    "trojan/artemis": {
+      "precision": 0.9307692307692308,
+      "recall": 0.8066666666666666,
+      "f1-score": 0.8642857142857143,
+      "support": 150.0
+    },
+    "accuracy": 0.8693333333333333,
+    "macro avg": {
+      "precision": 0.8731639146713643,
+      "recall": 0.8693333333333333,
+      "f1-score": 0.8699803530531828,
+      "support": 750.0
+    },
+    "weighted avg": {
+      "precision": 0.8731639146713643,
+      "recall": 0.8693333333333333,
+      "f1-score": 0.8699803530531827,
+      "support": 750.0
+    }
+  }
+}

@@ -1,0 +1,18 @@
+# Comprehensive Classification Results Comparison
+
+This table compares train/test and cross-validation results across all configurations.
+
+| Configuration | TT_Accuracy | TT_Macro_F1 | TT_Macro_AUC | TT_N_Runs | CV_Accuracy | CV_Macro_F1 | CV_Macro_AUC | CV_Consistency | Overfitting_Diff | Best |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| rf_coarse | 0.8824 ± 0.0038 | 0.8819 ± 0.0039 | 0.9793 ± 0.0002 | 5.0000 | 0.8884 ± 0.0097 | 0.8885 ± 0.0095 | 0.9822 ± 0.0015 | 1.10% | -0.0060 | ★ |
+| rf_gcm | 0.8779 ± 0.0050 | 0.8785 ± 0.0049 | 0.9763 ± 0.0013 | 5.0000 | 0.8698 ± 0.0100 | 0.8707 ± 0.0097 | 0.9769 ± 0.0020 | 1.15% | 0.0081 | N/A |
+| svm_coarse | 0.7640 ± 0.0000 | 0.7599 ± 0.0000 | 0.9368 ± 0.0001 | 5.0000 | 0.7758 ± 0.0077 | 0.7719 ± 0.0082 | 0.9417 ± 0.0052 | 1.00% | -0.0118 | N/A |
+| svm_gcm | 0.8360 ± 0.0000 | 0.8362 ± 0.0000 | 0.9627 ± 0.0002 | 5.0000 | 0.8322 ± 0.0070 | 0.8332 ± 0.0066 | 0.9651 ± 0.0031 | 0.84% | 0.0038 | N/A |
+
+## Legend
+
+- **TT_**: Train/Test split metrics
+- **CV_**: Cross-validation metrics
+- **Overfitting_Diff**: Difference between train/test and CV accuracy (positive = potential overfitting)
+- **CV_Consistency**: Coefficient of variation (std/mean) as percentage
+- **★**: Best performing configuration

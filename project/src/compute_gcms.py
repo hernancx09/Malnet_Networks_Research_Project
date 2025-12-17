@@ -7,6 +7,7 @@ Based on Yaveroglu et al. methodology using Spearman correlation
 
 import numpy as np
 import pickle
+import time
 from pathlib import Path
 from typing import List, Optional
 from tqdm import tqdm
@@ -97,12 +98,20 @@ def compute_gcms_from_dgdvs(dgdvs: List[np.ndarray],
         List of GCM vectors
     """
     gcms = []
+    comp_times = []
     
     if batch_size is None:
         # Process all at once
-        for dgdv in tqdm(dgdvs, desc="Computing GCMs"):
+        for i, dgdv in enumerate(tqdm(dgdvs, desc="Computing GCMs")):
+            comp_start = time.time()
             gcm = compute_gcm_from_dgdv(dgdv, use_gpu=use_gpu)
+            comp_time = time.time() - comp_start
+            comp_times.append(comp_time)
             gcms.append(gcm)
+            
+            if (i + 1) % 100 == 0 and i > 0:
+                avg_time = np.mean(comp_times[-100:])
+                print(f"  Graph {i+1}/{len(dgdvs)}: avg {avg_time:.3f}s/graph")
     else:
         # Process in batches
         for batch_start in range(0, len(dgdvs), batch_size):
@@ -110,11 +119,15 @@ def compute_gcms_from_dgdvs(dgdvs: List[np.ndarray],
             batch_dgdvs = dgdvs[batch_start:batch_end]
             
             for dgdv in batch_dgdvs:
+                comp_start = time.time()
                 gcm = compute_gcm_from_dgdv(dgdv, use_gpu=use_gpu)
+                comp_time = time.time() - comp_start
+                comp_times.append(comp_time)
                 gcms.append(gcm)
             
             if batch_end % (batch_size * 5) == 0:
-                print(f"  Processed {batch_end}/{len(dgdvs)} GCMs...")
+                avg_time = np.mean(comp_times[-batch_size*5:]) if comp_times else 0
+                print(f"  Processed {batch_end}/{len(dgdvs)} GCMs... (avg: {avg_time:.3f}s/graph)")
     
     return gcms
 
@@ -156,12 +169,14 @@ def compute_gcms_from_file(input_file: str,
     
     # Load DGDVs
     print(f"\nLoading DGDVs from: {input_file}")
+    load_start = time.time()
     with open(input_file, 'rb') as f:
         dgdvs = pickle.load(f)
-    
+    load_time = time.time() - load_start
     print(f"Loaded {len(dgdvs)} DGDVs")
     if len(dgdvs) > 0:
         print(f"  DGDV shape: {dgdvs[0].shape}")
+    print(f"  Loading time: {load_time:.2f} seconds")
     
     # Compute GCMs for remaining graphs
     if start_idx < len(dgdvs):
@@ -173,11 +188,13 @@ def compute_gcms_from_file(input_file: str,
         else:
             print("  Using CPU")
         
+        comp_start = time.time()
         new_gcms = compute_gcms_from_dgdvs(
             remaining_dgdvs,
             use_gpu=use_gpu,
             batch_size=batch_size
         )
+        comp_time = time.time() - comp_start
         
         # Combine with existing
         all_gcms = existing_gcms + new_gcms
@@ -187,14 +204,17 @@ def compute_gcms_from_file(input_file: str,
     
     # Save GCMs
     print(f"\nSaving GCMs to: {output_file}")
+    save_start = time.time()
     output_path = Path(output_file)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     
     with open(output_file, 'wb') as f:
         pickle.dump(all_gcms, f)
+    save_time = time.time() - save_start
     
     file_size = Path(output_file).stat().st_size / (1024 * 1024)
     print(f"  Saved {len(all_gcms)} GCMs ({file_size:.2f} MB)")
+    print(f"  Saving time: {save_time:.2f} seconds")
     
     # Statistics
     valid_gcms = [gcm for gcm in all_gcms if gcm.size > 0]
@@ -205,6 +225,17 @@ def compute_gcms_from_file(input_file: str,
         print(f"  Average GCM size: {np.mean(gcm_sizes):.1f}")
         print(f"  Min GCM size: {min(gcm_sizes)}")
         print(f"  Max GCM size: {max(gcm_sizes)}")
+    
+    # Timing summary
+    total_time = load_time + (comp_time if start_idx < len(dgdvs) else 0) + save_time
+    print(f"\nTiming Summary:")
+    print(f"  Loading DGDVs: {load_time:.2f} seconds")
+    if start_idx < len(dgdvs):
+        print(f"  Computing GCMs: {comp_time:.2f} seconds")
+        if len(remaining_dgdvs) > 0:
+            print(f"  Average: {comp_time/len(remaining_dgdvs):.2f} seconds/graph")
+    print(f"  Saving GCMs: {save_time:.2f} seconds")
+    print(f"  Total: {total_time:.2f} seconds")
     
     print("\n" + "="*60)
     print("GCM Computation Complete!")

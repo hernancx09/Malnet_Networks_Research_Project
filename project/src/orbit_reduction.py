@@ -7,6 +7,7 @@ Removes orbits with near-zero variance or strong collinearity from DGDVs
 import numpy as np
 import pickle
 import json
+import time
 from pathlib import Path
 from typing import List, Tuple, Dict, Optional
 from tqdm import tqdm
@@ -47,6 +48,7 @@ def reduce_orbits(dgdvs: List[np.ndarray],
     # Step 1: Remove orbits with near-zero variance
     # Compute variance across all graphs for each orbit
     print("\n[1/2] Computing orbit variances...")
+    variance_start = time.time()
     orbit_variances = np.zeros(n_orbits)
     
     for batch_start in range(0, n_graphs, batch_size):
@@ -58,6 +60,9 @@ def reduce_orbits(dgdvs: List[np.ndarray],
         if stacked.size > 0:
             batch_variances = np.var(stacked, axis=0)
             orbit_variances = np.maximum(orbit_variances, batch_variances)
+    
+    variance_time = time.time() - variance_start
+    print(f"  Variance computation time: {variance_time:.2f} seconds")
     
     # Find orbits with sufficient variance
     high_variance_mask = orbit_variances >= variance_threshold
@@ -79,6 +84,7 @@ def reduce_orbits(dgdvs: List[np.ndarray],
     
     # Step 2: Remove strongly collinear orbits
     print("\n[2/2] Computing orbit correlations...")
+    correlation_start = time.time()
     
     # Compute mean orbit counts across all graphs for correlation analysis
     mean_orbit_counts = np.zeros((n_graphs, len(high_variance_indices)))
@@ -96,7 +102,10 @@ def reduce_orbits(dgdvs: List[np.ndarray],
         kept_indices = high_variance_indices
     else:
         valid_means = mean_orbit_counts[valid_mask]
+        corr_comp_start = time.time()
         correlation_matrix = np.corrcoef(valid_means.T)
+        corr_comp_time = time.time() - corr_comp_start
+        print(f"  Correlation matrix computation: {corr_comp_time:.2f} seconds")
         
         # Find strongly correlated orbit pairs
         # Use upper triangle to avoid duplicates
@@ -132,10 +141,14 @@ def reduce_orbits(dgdvs: List[np.ndarray],
             kept_indices = high_variance_indices
             print(f"  No strongly correlated orbits found (threshold: {correlation_threshold})")
     
+    correlation_time = time.time() - correlation_start
+    print(f"  Correlation computation time: {correlation_time:.2f} seconds")
+    
     print(f"\n  Final orbit count: {len(kept_indices)}/{n_orbits} ({len(kept_indices)/n_orbits*100:.1f}%)")
     
     # Step 3: Apply reduction to all DGDVs
     print("\n[3/3] Applying reduction to DGDVs...")
+    apply_start = time.time()
     reduced_dgdvs = []
     
     for dgdv in tqdm(dgdvs, desc="Reducing DGDVs"):
@@ -146,7 +159,11 @@ def reduce_orbits(dgdvs: List[np.ndarray],
             # Keep empty/invalid DGDVs as-is
             reduced_dgdvs.append(dgdv)
     
+    apply_time = time.time() - apply_start
+    print(f"  Reduction application time: {apply_time:.2f} seconds")
+    
     # Compute statistics
+    total_reduction_time = variance_time + correlation_time + apply_time
     reduction_stats = {
         'original_orbits': n_orbits,
         'after_variance_filter': len(high_variance_indices),
@@ -157,8 +174,16 @@ def reduce_orbits(dgdvs: List[np.ndarray],
         'reduction_ratio': len(kept_indices) / n_orbits,
         'variance_threshold': variance_threshold,
         'correlation_threshold': correlation_threshold,
-        'kept_orbit_indices': kept_indices.tolist()
+        'kept_orbit_indices': kept_indices.tolist(),
+        'timing': {
+            'variance_computation': variance_time,
+            'correlation_computation': correlation_time,
+            'reduction_application': apply_time,
+            'total': total_reduction_time
+        }
     }
+    
+    print(f"\n  Total reduction time: {total_reduction_time:.2f} seconds")
     
     return reduced_dgdvs, kept_indices, reduction_stats
 
@@ -189,31 +214,38 @@ def reduce_orbits_from_file(input_file: str,
     
     # Load DGDVs
     print(f"\nLoading DGDVs from: {input_file}")
+    load_start = time.time()
     with open(input_file, 'rb') as f:
         dgdvs = pickle.load(f)
-    
+    load_time = time.time() - load_start
     print(f"Loaded {len(dgdvs)} DGDVs")
     if len(dgdvs) > 0:
         print(f"  DGDV shape: {dgdvs[0].shape}")
+    print(f"  Loading time: {load_time:.2f} seconds")
     
     # Apply reduction
+    reduction_start = time.time()
     reduced_dgdvs, kept_indices, stats = reduce_orbits(
         dgdvs,
         variance_threshold=variance_threshold,
         correlation_threshold=correlation_threshold,
         batch_size=batch_size
     )
+    reduction_time = time.time() - reduction_start
     
     # Save reduced DGDVs
     print(f"\nSaving reduced DGDVs to: {output_file}")
+    save_start = time.time()
     output_path = Path(output_file)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     
     with open(output_file, 'wb') as f:
         pickle.dump(reduced_dgdvs, f)
+    save_time = time.time() - save_start
     
     file_size = Path(output_file).stat().st_size / (1024 * 1024)
     print(f"  Saved {len(reduced_dgdvs)} reduced DGDVs ({file_size:.2f} MB)")
+    print(f"  Saving time: {save_time:.2f} seconds")
     
     # Save metadata
     if metadata_file:
@@ -223,6 +255,14 @@ def reduce_orbits_from_file(input_file: str,
         
         with open(metadata_file, 'w') as f:
             json.dump(stats, f, indent=2)
+    
+    # Timing summary
+    total_time = load_time + reduction_time + save_time
+    print(f"\nTiming Summary:")
+    print(f"  Loading DGDVs: {load_time:.2f} seconds")
+    print(f"  Reduction computation: {reduction_time:.2f} seconds")
+    print(f"  Saving results: {save_time:.2f} seconds")
+    print(f"  Total: {total_time:.2f} seconds")
     
     print("\n" + "="*60)
     print("Orbit Reduction Complete!")

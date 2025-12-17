@@ -7,6 +7,7 @@ for MalNet-Tiny dataset using UCL Directed Graphlet Counter
 import os
 import sys
 import argparse
+import time
 from pathlib import Path
 
 # Add src to path
@@ -104,6 +105,8 @@ def test_mode(project_root: Path):
 
 def normal_mode(project_root: Path):
     """Run pipeline in normal mode with full dataset"""
+    pipeline_start = time.time()
+    
     # Configuration
     data_dir = "data/malnet_tiny"
     output_dir = "data/gdvs"
@@ -112,8 +115,10 @@ def normal_mode(project_root: Path):
     
     # Load dataset
     print("\n[1/3] Loading MalNet-Tiny dataset...")
+    load_start = time.time()
     loader = MalNetTinyLoader(data_dir)
     graphs = loader.load_graphs(directed=True)  # Load as directed graphs
+    load_time = time.time() - load_start
     
     if not graphs:
         print("[ERROR] No graphs loaded. Please check dataset directory.")
@@ -122,9 +127,11 @@ def normal_mode(project_root: Path):
     print(f"  Loaded {len(graphs)} graphs")
     if loader.labels:
         print(f"  Labels: {len(set(loader.labels))} unique families")
+    print(f"  Loading time: {load_time:.2f} seconds")
     
     # Process graphs
     print(f"\n[2/3] Computing DGDVs (size: {min_graphlet_size}-{max_graphlet_size} node)...")
+    dgdv_start = time.time()
     use_gpu = True  # Enable GPU acceleration if available
     processor = DGDVProcessor(data_dir, output_dir, use_gpu=use_gpu)
     results = processor.process_graphs(
@@ -133,12 +140,18 @@ def normal_mode(project_root: Path):
         min_graphlet_size=min_graphlet_size,
         max_graphlet_size=max_graphlet_size
     )
+    dgdv_time = time.time() - dgdv_start
     
     # Summary
+    total_time = time.time() - pipeline_start
     print(f"\n[3/3] Pipeline complete!")
     print(f"  Successful: {results['metadata']['successful']}")
     print(f"  Failed: {results['metadata']['failed']}")
     print(f"  Output: {output_dir}")
+    print(f"\nTiming Summary:")
+    print(f"  Dataset Loading: {load_time:.2f} seconds")
+    print(f"  DGDV Computation: {dgdv_time:.2f} seconds")
+    print(f"  Total Pipeline: {total_time:.2f} seconds")
     print("="*60)
 
 

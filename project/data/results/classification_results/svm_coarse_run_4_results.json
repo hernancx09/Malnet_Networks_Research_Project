@@ -1,0 +1,91 @@
+{
+  "accuracy": 0.764,
+  "macro_f1": 0.7598965879610183,
+  "weighted_f1": 0.7598965879610183,
+  "micro_f1": 0.764,
+  "macro_precision": 0.7605780326713599,
+  "weighted_precision": 0.7605780326713599,
+  "macro_recall": 0.764,
+  "weighted_recall": 0.764,
+  "per_class": {
+    "addisplay/kuguo": {
+      "f1": 0.6896551724137931,
+      "precision": 0.7142857142857143,
+      "recall": 0.6666666666666666
+    },
+    "adware/airpush": {
+      "f1": 0.8859060402684564,
+      "precision": 0.8918918918918919,
+      "recall": 0.88
+    },
+    "benign/benign": {
+      "f1": 0.5620437956204379,
+      "precision": 0.6209677419354839,
+      "recall": 0.5133333333333333
+    },
+    "downloader/jiagu": {
+      "f1": 0.9646302250803859,
+      "precision": 0.9316770186335404,
+      "recall": 1.0
+    },
+    "trojan/artemis": {
+      "f1": 0.6972477064220184,
+      "precision": 0.6440677966101694,
+      "recall": 0.76
+    }
+  },
+  "macro_auc": 0.9369288888888889,
+  "weighted_auc": 0.9369288888888889,
+  "per_class_auc": {
+    "addisplay/kuguo": 0.9375833333333333,
+    "adware/airpush": 0.9875444444444444,
+    "benign/benign": 0.8776277777777779,
+    "downloader/jiagu": 0.9949,
+    "trojan/artemis": 0.886988888888889
+  },
+  "classification_report": {
+    "addisplay/kuguo": {
+      "precision": 0.7142857142857143,
+      "recall": 0.6666666666666666,
+      "f1-score": 0.6896551724137931,
+      "support": 150.0
+    },
+    "adware/airpush": {
+      "precision": 0.8918918918918919,
+      "recall": 0.88,
+      "f1-score": 0.8859060402684564,
+      "support": 150.0
+    },
+    "benign/benign": {
+      "precision": 0.6209677419354839,
+      "recall": 0.5133333333333333,
+      "f1-score": 0.5620437956204379,
+      "support": 150.0
+    },
+    "downloader/jiagu": {
+      "precision": 0.9316770186335404,
+      "recall": 1.0,
+      "f1-score": 0.9646302250803859,
+      "support": 150.0
+    },
+    "trojan/artemis": {
+      "precision": 0.6440677966101694,
+      "recall": 0.76,
+      "f1-score": 0.6972477064220184,
+      "support": 150.0
+    },
+    "accuracy": 0.764,
+    "macro avg": {
+      "precision": 0.7605780326713599,
+      "recall": 0.764,
+      "f1-score": 0.7598965879610183,
+      "support": 750.0
+    },
+    "weighted avg": {
+      "precision": 0.7605780326713599,
+      "recall": 0.764,
+      "f1-score": 0.7598965879610183,
+      "support": 750.0
+    }
+  }
+}
