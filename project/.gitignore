@@ -9,7 +9,6 @@ __pycache__/
 venv/
 env/
 ENV/
-../venv/
 
 # IDE
 .vscode/
@@ -28,9 +27,6 @@ data/GCMs/*.pkl
 # Exclude large combined files
 **/all_dgdvs*.pkl
 **/all_gcms*.pkl
-
-# Model files (can be regenerated)
-data/results/models/*.pkl
 
 # Temporary files
 *.tmp
